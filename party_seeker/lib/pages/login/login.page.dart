@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:party_seeker/config/routes.dart';
-import 'package:party_seeker/pages/login/login.controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,14 +9,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late final LoginController controller;
-
-  @override
-  void initState() {
-    controller = LoginController();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,17 +23,6 @@ class _LoginPageState extends State<LoginPage> {
               style: Theme.of(context).textTheme.headline3,
             ),
           ),
-          Observer(
-            builder: (_) => Center(
-              child: Text(
-                "${controller.counter}",
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
-            ),
-          ),
-          ElevatedButton(
-              onPressed: controller.increment,
-              child: const Text("Increase count")),
           ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, Routes.events),
               child: const Text("Login and navigate to event page"))
