@@ -1,19 +1,12 @@
 import 'package:party_seeker/config/global.controller.dart';
 import 'package:party_seeker/config/routes.dart';
-import 'package:party_seeker/pages/login/login.view.dart';
+import 'package:party_seeker/pages/sign_up/sign_up.view.dart';
 
-class LoginController {
-  final LoginView _view;
+class SignUpController {
+  final SignUpView _view;
   GlobalController globalController = GlobalController();
 
-  LoginController(this._view);
-
-  int _counter = 0;
-
-  void increment() {
-    _counter++;
-    _view.increment(_counter);
-  }
+  SignUpController(this._view);
 
   void login(String email, String password) async {
     _view.setLoading(true);

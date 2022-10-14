@@ -1,34 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:party_seeker/components/CustomButton.dart';
-import 'package:party_seeker/config/routes.dart';
-import 'package:party_seeker/pages/login/login.controller.dart';
-import 'package:party_seeker/pages/login/login.view.dart';
+import 'package:party_seeker/pages/sign_up/sign_up.controller.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import '../../config/routes.dart';
+import 'sign_up.view.dart';
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> implements LoginView {
-  late LoginController controller;
-  int counter = 0;
+class _SignUpPageState extends State<SignUpPage> implements SignUpView {
+  late SignUpController controller;
   bool loading = false;
 
   @override
   void initState() {
-    controller = LoginController(this);
+    controller = SignUpController(this);
     super.initState();
-  }
-
-  @override
-  void increment(int newCounter) {
-    setState(() {
-      counter = newCounter;
-    });
   }
 
   @override
@@ -62,13 +54,25 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           ),
           Center(
             child: Text(
-              "Sign In",
+              "Sign Up",
               style: Theme.of(context).textTheme.headline1,
             ),
           ),
           const SizedBox(height: 30),
           CupertinoTextField(
             placeholder: 'Email',
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'First Name',
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'Last Name',
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'Birthday',
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
@@ -94,7 +98,7 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
                           color: Colors.white,
                         )
                       : Text(
-                          'Login',
+                          'Create an account',
                           style: Theme.of(context)
                               .textTheme
                               .headline2
@@ -108,10 +112,10 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           Center(
             child: TextButton(
                 onPressed: () {
-                  navigateTo(Routes.sign_up);
+                  navigateTo(Routes.login);
                 },
                 child: Text(
-                  'Does not have an account? Sign Up',
+                  'Already have an account? Sign In',
                   style: Theme.of(context).textTheme.headline3,
                 )),
           )
