@@ -11,16 +11,23 @@ class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Event page"),
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: Text("This will be the event page list",
-                style: Theme.of(context).textTheme.headline3),
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.only(
+          top: 60,
+          bottom: 30,
+          left: 15,
+          right: 15,
+        ),
+        child: Column(
+          children: [
+            Center(
+              child: Text(
+                "Next Events",
+                style: Theme.of(context).textTheme.headline1,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:party_seeker/config/routes.dart';
 
 void main() => runApp(const MyApp());
@@ -11,7 +12,28 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        backgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: GoogleFonts.openSansTextTheme(
+          const TextTheme(
+            headline1: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              fontSize: 30,
+            ),
+            headline2: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+              fontSize: 18,
+            ),
+            headline3: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+        ),
       ),
       onGenerateRoute: Routes.generateRoute,
       initialRoute: Routes.login,

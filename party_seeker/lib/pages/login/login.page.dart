@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/login/login.controller.dart';
 import 'package:party_seeker/pages/login/login.view.dart';
@@ -43,25 +45,38 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login Page"),
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: Text(
-              "This is the login page $counter",
-              style: Theme.of(context).textTheme.headline3,
+      body: Padding(
+        padding: const EdgeInsets.only(
+          top: 60,
+          bottom: 30,
+          left: 15,
+          right: 15,
+        ),
+        child: ListView(
+          children: [
+            SvgPicture.asset(
+              'lib/assets/logo/logo.svg',
+              height: 150,
+              color: Colors.white,
             ),
-          ),
-          ElevatedButton(
-              onPressed: controller.increment, child: const Text("Increment")),
-          loading
-              ? const CircularProgressIndicator()
-              : ElevatedButton(
-                  onPressed: () => controller.login("email", "password"),
-                  child: const Text("LOGIN"))
-        ],
+            Center(
+              child: Text(
+                "Sign In",
+                style: Theme.of(context).textTheme.headline1,
+              ),
+            ),
+            const SizedBox(height: 30),
+            CupertinoTextField(),
+            const SizedBox(height: 15),
+            CupertinoTextField(),
+            const SizedBox(height: 30),
+            loading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: () => controller.login("email", "password"),
+                    child: const Text("LOGIN"))
+          ],
+        ),
       ),
     );
   }
