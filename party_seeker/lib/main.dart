@@ -6,6 +6,7 @@ import 'package:party_seeker/config/routes.dart';
 //void main() => runApp(const MyApp());
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]).then((_) {
     runApp(const MyApp());
