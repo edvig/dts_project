@@ -34,12 +34,13 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
+        leading: InkWell(
+          onTap: () {
             navigateTo(Routes.addEvent);
           },
+          highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
-          icon: const Icon(
+          child: const Icon(
             Icons.add,
             color: Colors.white,
             size: 30,
@@ -51,13 +52,19 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {},
-            splashColor: Colors.transparent,
-            icon: const Icon(
-              CupertinoIcons.profile_circled,
-              color: Colors.white,
-              size: 30,
+          Padding(
+            padding: const EdgeInsets.only(right: 10, top: 2),
+            child: InkWell(
+              onTap: () {
+                //navigateTo(Routes.addEvent);
+              },
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: const Icon(
+                CupertinoIcons.profile_circled,
+                color: Colors.white,
+                size: 30,
+              ),
             ),
           ),
         ],

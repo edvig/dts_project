@@ -9,6 +9,11 @@ class AddEventPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        title: Text(
+          "Create Event",
+          style: Theme.of(context).textTheme.headline1,
+        ),
+        centerTitle: true,
         leading: InkWell(
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
