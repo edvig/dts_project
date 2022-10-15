@@ -88,36 +88,6 @@ class EditEventPage extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 15),
-          InkWell(
-            onTap: () {},
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: const BorderRadius.all(Radius.circular(100))),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Center(
-                  child: false
-                      ? const CupertinoActivityIndicator(
-                          radius: 15,
-                          color: Colors.black,
-                        )
-                      : Text(
-                          'Delete',
-                          style:
-                              Theme.of(context).textTheme.headline2?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                        ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

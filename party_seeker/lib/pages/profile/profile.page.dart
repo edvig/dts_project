@@ -185,7 +185,149 @@ class _ProfilePageState extends State<ProfilePage> {
                             width: 20,
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Are you sure?',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline2
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 25,
+                                      vertical: 15,
+                                    ),
+                                    content: Container(
+                                      height: 60,
+                                      child: Text(
+                                        'This event will be deleted forever',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3,
+                                      ),
+                                    ),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                      side: BorderSide(
+                                        color: Colors.white,
+                                        width: 3,
+                                      ),
+                                    ),
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    actions: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 10,
+                                          left: 10,
+                                          right: 10,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            InkWell(
+                                              onTap: () =>
+                                                  Navigator.pop(context),
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              child: Container(
+                                                width: 100,
+                                                height: 50,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                15))),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  child: Center(
+                                                    child: false
+                                                        ? const CupertinoActivityIndicator(
+                                                            radius: 15,
+                                                            color: Colors.black,
+                                                          )
+                                                        : Text(
+                                                            'No',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .headline2
+                                                                ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800,
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                          ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {},
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              child: Container(
+                                                width: 100,
+                                                height: 50,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                15))),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  child: Center(
+                                                    child: false
+                                                        ? const CupertinoActivityIndicator(
+                                                            radius: 15,
+                                                            color: Colors.black,
+                                                          )
+                                                        : Text(
+                                                            'Yes',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .headline2
+                                                                ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800,
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                          ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             child: const Icon(
