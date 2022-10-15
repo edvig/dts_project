@@ -61,22 +61,27 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
           const SizedBox(height: 30),
           CupertinoTextField(
             placeholder: 'Email',
+            keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
             placeholder: 'First Name',
+            keyboardType: TextInputType.name,
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
             placeholder: 'Last Name',
+            keyboardType: TextInputType.name,
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
             placeholder: 'Birthday',
+            keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
             placeholder: 'Password',
+            keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 30),
           InkWell(
@@ -108,12 +113,14 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Center(
-            child: TextButton(
-                onPressed: () {
+            child: InkWell(
+                onTap: () {
                   navigateTo(Routes.login);
                 },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Text(
                   'Already have an account? Sign In',
                   style: Theme.of(context).textTheme.headline3,

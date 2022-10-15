@@ -69,10 +69,12 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           const SizedBox(height: 30),
           CupertinoTextField(
             placeholder: 'Email',
+            keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
             placeholder: 'Password',
+            keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 30),
           InkWell(
@@ -104,12 +106,14 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Center(
-            child: TextButton(
-                onPressed: () {
+            child: InkWell(
+                onTap: () {
                   navigateTo(Routes.sign_up);
                 },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Text(
                   'Does not have an account? Sign Up',
                   style: Theme.of(context).textTheme.headline3,
