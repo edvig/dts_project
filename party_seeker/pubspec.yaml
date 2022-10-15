@@ -15,12 +15,22 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
   flutter_svg: ^1.1.5
+  flutter_native_splash: ^2.2.11
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+  color: "#000000"
+  image: lib/assets/logo/logoBigger.png
+  android_gravity: center
+  ios_content_mode: center
 
 flutter:
   uses-material-design: true
