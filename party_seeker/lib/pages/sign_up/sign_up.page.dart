@@ -99,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
                 child: Center(
                   child: loading
                       ? const CupertinoActivityIndicator(
-                          radius: 10,
+                          radius: 15,
                           color: Colors.white,
                         )
                       : Text(

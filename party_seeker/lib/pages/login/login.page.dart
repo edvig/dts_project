@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
                 child: Center(
                   child: loading
                       ? const CupertinoActivityIndicator(
-                          radius: 10,
+                          radius: 15,
                           color: Colors.white,
                         )
                       : Text(
