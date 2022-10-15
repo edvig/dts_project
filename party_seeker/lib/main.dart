@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:party_seeker/config/routes.dart';
 
-void main() => runApp(const MyApp());
+//void main() => runApp(const MyApp());
+
+void main() async {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]).then((_) {
+    runApp(const MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
