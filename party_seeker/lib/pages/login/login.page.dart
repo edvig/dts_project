@@ -79,6 +79,8 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           const SizedBox(height: 30),
           InkWell(
             onTap: () => controller.login("email", "password"),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: Container(
               height: 50,
               decoration: BoxDecoration(

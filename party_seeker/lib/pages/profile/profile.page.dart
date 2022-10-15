@@ -1,8 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ProfiletPage extends StatelessWidget {
-  const ProfiletPage({Key? key}) : super(key: key);
+import '../../config/routes.dart';
+import 'profile.controller.dart';
+
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late ProfileController controller;
+  bool loading = false;
+
+  @override
+  void navigateTo(String route) {
+    Navigator.pushNamed(context, route);
+  }
+
+  @override
+  void setLoading(bool value) {
+    setState(() {
+      loading = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +67,8 @@ class ProfiletPage extends StatelessWidget {
                 const SizedBox(width: 10),
                 InkWell(
                   onTap: () {},
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: Container(
                     width: 100,
                     height: 50,
@@ -146,7 +171,9 @@ class ProfiletPage extends StatelessWidget {
                       Row(
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              navigateTo(Routes.editEvent);
+                            },
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             child: const Icon(
