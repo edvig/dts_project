@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({super.key});
@@ -153,11 +154,11 @@ class EventCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(
-                      CupertinoIcons.person_2_fill,
+                    SvgPicture.asset(
+                      'lib/assets/icons/user_check.svg',
+                      height: 30,
                       color: Colors.white,
                     ),
-                    const SizedBox(width: 5),
                     Text(
                       '13',
                       style: Theme.of(context)
@@ -201,7 +202,7 @@ class EventCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Create your team of 5 people and be ready to play a trivia game about history, geography, music and moreCreate your team of 5 people and be ready to play a trivia game about history, geography, music and moreCreate your team of 5 people and be ready to play a trivia gameCreate your team of 5 people and be ready to play a trivia game about history, geography, music and moreCreate your team of 5 people and be ready to play a trivia game about history, geography, music and more about history, geography, music and moreCreate your team of 5 people and be ready to play a trivia game about history, geography, music and more',
+                        'Create your team of 5 people and be ready to play a trivia game about history, geography, music and moreCreate your team of 5 people and be ready to play a trivia game about history, geography, music and more',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
@@ -269,10 +270,11 @@ class EventCard extends StatelessWidget {
                               Radius.circular(100),
                             ),
                           ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.check,
-                              size: 50,
+                          child: Center(
+                            child: SvgPicture.asset(
+                              'lib/assets/icons/check_bold.svg',
+                              height: 60,
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -369,11 +371,11 @@ class EventCard extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(
-                        CupertinoIcons.person_2_fill,
+                      SvgPicture.asset(
+                        'lib/assets/icons/user_check.svg',
+                        height: 30,
                         color: Colors.white,
                       ),
-                      const SizedBox(width: 5),
                       Text(
                         '13',
                         style: Theme.of(context)
