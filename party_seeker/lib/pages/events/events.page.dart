@@ -56,7 +56,7 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
             padding: const EdgeInsets.only(right: 10, top: 2),
             child: InkWell(
               onTap: () {
-                //navigateTo(Routes.addEvent);
+                navigateTo(Routes.profile);
               },
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
