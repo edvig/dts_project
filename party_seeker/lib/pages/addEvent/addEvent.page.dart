@@ -23,7 +23,71 @@ class AddEventPage extends StatelessWidget {
           child: const Icon(CupertinoIcons.left_chevron),
         ),
       ),
-      body: ListView(),
+      body: ListView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(
+          top: 20,
+          bottom: 30,
+          left: 20,
+          right: 20,
+        ),
+        children: [
+          CupertinoTextField(
+            placeholder: 'Title',
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'Date',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'Time',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'Price',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 15),
+          CupertinoTextField(
+            placeholder: 'Description',
+            maxLines: 10,
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 30),
+          InkWell(
+            onTap: () {},
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3,
+                    color: Colors.white,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(100))),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Center(
+                  child: false
+                      ? const CupertinoActivityIndicator(
+                          radius: 15,
+                          color: Colors.white,
+                        )
+                      : Text(
+                          'Create',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline2
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
