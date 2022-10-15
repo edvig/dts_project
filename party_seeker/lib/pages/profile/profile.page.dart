@@ -35,16 +35,42 @@ class ProfiletPage extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                const Icon(
-                  CupertinoIcons.profile_circled,
-                  color: Colors.white,
-                  size: 100,
-                ),
-                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     'Matheus' + ' ' + 'Galvao',
                     style: Theme.of(context).textTheme.headline2,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: 100,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Center(
+                        child: false
+                            ? const CupertinoActivityIndicator(
+                                radius: 15,
+                                color: Colors.black,
+                              )
+                            : Text(
+                                'Log out',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline2
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                    ),
+                              ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -88,42 +114,70 @@ class ProfiletPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 15),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                width: 150,
-                height: 50,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Center(
-                    child: false
-                        ? const CupertinoActivityIndicator(
-                            radius: 15,
-                            color: Colors.black,
-                          )
-                        : Text(
-                            'Log out',
-                            style:
-                                Theme.of(context).textTheme.headline2?.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.black,
-                                    ),
-                          ),
+            const SizedBox(height: 30),
+            ListView.separated(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 60,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 3,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(15),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 18,
-                itemBuilder: (context, index) {
-                  return Text('Some text');
-                })
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * .5,
+                        child: Text(
+                          'Quiz Party',
+                          overflow: TextOverflow.fade,
+                          style: Theme.of(context).textTheme.headline2,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: const Icon(
+                              CupertinoIcons.delete,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  height: 15,
+                );
+              },
+            )
           ],
         ),
       ),
