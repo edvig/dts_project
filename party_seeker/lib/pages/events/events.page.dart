@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:party_seeker/pages/events/EventCard.dart';
 
+import '../../config/routes.dart';
+import 'events.controller.dart';
+import 'events.view.dart';
+
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
 
@@ -9,14 +13,31 @@ class EventsPage extends StatefulWidget {
   State<EventsPage> createState() => _EventsPageState();
 }
 
-class _EventsPageState extends State<EventsPage> {
+class _EventsPageState extends State<EventsPage> implements EventsView {
+  late EventsController controller;
+  bool loading = false;
+
+  @override
+  void navigateTo(String route) {
+    Navigator.pushNamed(context, route);
+  }
+
+  @override
+  void setLoading(bool value) {
+    setState(() {
+      loading = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            navigateTo(Routes.addEvent);
+          },
           splashColor: Colors.transparent,
           icon: const Icon(
             Icons.add,

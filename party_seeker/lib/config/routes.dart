@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:party_seeker/pages/addEvent/addEvent.page.dart';
 import 'package:party_seeker/pages/events/events.page.dart';
 import 'package:party_seeker/pages/login/login.page.dart';
 
@@ -8,6 +9,7 @@ class Routes {
   static const String login = "/";
   static const String events = "/events";
   static const String sign_up = "/sign_up";
+  static const String addEvent = "/addEvent";
 
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -16,6 +18,9 @@ class Routes {
 
       case sign_up:
         return _customNavigate(const SignUpPage(), settings.name ?? login);
+
+      case addEvent:
+        return _customNavigate(const AddEventPage(), settings.name ?? login);
 
       case events:
         return _customNavigate(const EventsPage(), settings.name ?? login);
