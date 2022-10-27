@@ -26,8 +26,8 @@ public class UserService {
         return null;
     }
 
-    public User CreateUser(User newUser){
-        return userRepository.save(newUser);
+    public User SaveUser(User user){
+        return userRepository.save(user);
     }
 
     public boolean DeleteUser(Integer userId) {

@@ -1,9 +1,11 @@
 package ipb.dts.party.seeker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -42,5 +44,7 @@ public class Event {
 //
     @ManyToMany()
     @Column(name = "user_id")
+    @JsonIgnore
     private List<User> participants;
+
 }

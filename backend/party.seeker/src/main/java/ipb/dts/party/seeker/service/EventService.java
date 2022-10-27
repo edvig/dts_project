@@ -13,7 +13,7 @@ public class EventService {
     @Autowired
     EventRepository eventRepository;
 
-    public Event CreateEvent(Event newEvent) {
+    public Event SaveEvent(Event newEvent) {
         return eventRepository.save(newEvent) ;
     }
 

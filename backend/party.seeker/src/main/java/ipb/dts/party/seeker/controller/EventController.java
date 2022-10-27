@@ -1,6 +1,9 @@
 package ipb.dts.party.seeker.controller;
 
+import ipb.dts.party.seeker.model.Attendance;
 import ipb.dts.party.seeker.model.Event;
+import ipb.dts.party.seeker.model.User;
+import ipb.dts.party.seeker.service.AttendanceService;
 import ipb.dts.party.seeker.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +20,12 @@ public class EventController {
     @Autowired
     EventService eventService;
 
+    @Autowired
+    AttendanceService attendanceService;
+
     @PostMapping()
     public ResponseEntity<Event> PostEvent(@RequestBody Event newEvent) {
-        return ResponseEntity.of(Optional.of(eventService.CreateEvent(newEvent)));
+        return ResponseEntity.of(Optional.of(eventService.SaveEvent(newEvent)));
     }
 
     @GetMapping()
@@ -41,6 +47,11 @@ public class EventController {
     @DeleteMapping("{eventId}")
     public ResponseEntity DeleteEvent(@PathVariable Integer eventId) {
         return ResponseEntity.of(Optional.of(eventService.DeleteEventById(eventId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/attend")
+    public  ResponseEntity<User> AttendEvent(@RequestBody Attendance attendance) {
+        return ResponseEntity.of(Optional.of(attendanceService.handleAttendance(attendance)));
     }
 
 

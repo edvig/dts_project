@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<User> PostUser(@RequestBody User newUser){
-        return ResponseEntity.of(Optional.of(userService.CreateUser(newUser)));
+        return ResponseEntity.of(Optional.of(userService.SaveUser(newUser)));
 
     }
 
