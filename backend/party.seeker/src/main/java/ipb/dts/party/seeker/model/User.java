@@ -37,8 +37,8 @@ public class User {
 //    @OneToMany
 //    private List<Event> myEvents;
 //
-//    // This relationship is to list the events where the user
-//    @ManyToMany
-//    @Column(name = "event_id")
-//    private List<Event> events;
+    // This relationship is to list the events where the user
+    @ManyToMany
+    @Column(name = "event_id")
+    private List<Event> events;
 }

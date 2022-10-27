@@ -5,7 +5,6 @@ import ipb.dts.party.seeker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User GetUser(Integer userId) {
+    public User GetUserById(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             return optionalUser.get();

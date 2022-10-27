@@ -40,7 +40,7 @@ public class Event {
 //    @JoinColumn(name = "USER_ID", nullable = false)
 //    private User organizer;
 //
-//    @ManyToMany()
-//    @Column(name = "user_id")
-//    private List<User> participants;
+    @ManyToMany()
+    @Column(name = "user_id")
+    private List<User> participants;
 }

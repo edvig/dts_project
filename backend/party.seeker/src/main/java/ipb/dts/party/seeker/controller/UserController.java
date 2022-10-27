@@ -2,13 +2,11 @@ package ipb.dts.party.seeker.controller;
 
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +26,7 @@ public class UserController {
 
     @GetMapping("{userId}")
     public ResponseEntity<User> GetUser(@PathVariable Integer userId) {
-        return ResponseEntity.of(Optional.of(userService.GetUser(userId)));
+        return ResponseEntity.of(Optional.of(userService.GetUserById(userId)));
     }
 
     @GetMapping()
