@@ -1,12 +1,16 @@
 package ipb.dts.party.seeker.service;
 
 import ipb.dts.party.seeker.model.Event;
+import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -23,10 +27,13 @@ public class EventService {
 
     public Event GetEventById(Integer eventId) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
-        if (optionalEvent.isPresent()) {
-            return optionalEvent.get();
-        }
-        return null;
+        return optionalEvent.isPresent() ? optionalEvent.get() : null;
+    }
+
+    public List<Event> GetUpcomingEvents() {
+        return eventRepository.findAll()
+                              .stream()
+                              .filter(event -> event.getDate().isAfter(LocalDate.now().minusDays(1))).collect(Collectors.toList());
     }
 
     public boolean DeleteEventById(Integer eventId) {
@@ -49,4 +56,10 @@ public class EventService {
          }
         return null;
     }
+
+    public List<User> GetParticipants(Integer eventId) {
+        Event event = GetEventById(eventId);
+        return (event != null) ? event.getParticipants() : null;
+    }
+
 }

@@ -35,7 +35,7 @@ public class AttendanceService {
         }
         else {
             if((userIsAlreadyOnParticipantList)) {
-                unattendUserIfOnParticipantsList(eventToAttend, userToAttend, participants);
+                unAttendUserIfOnParticipantsList(eventToAttend, userToAttend, participants);
             }
         }
 
@@ -50,7 +50,7 @@ public class AttendanceService {
         event.setParticipants(participants);
         user.getEvents().add(event);
     }
-    private void unattendUserIfOnParticipantsList(Event event, User user, List<User> participants){
+    private void unAttendUserIfOnParticipantsList(Event event, User user, List<User> participants){
         participants.remove(user);
         event.setParticipants(participants);
         List<Event> updatedEventList = user.getEvents()

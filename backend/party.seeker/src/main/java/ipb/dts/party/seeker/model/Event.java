@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -33,6 +34,7 @@ public class Event {
     private Integer minAgeToAttend;
 
     @Column(name = "DATE")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
 
     @Column(name = "TIME_OF_START")

@@ -33,6 +33,11 @@ public class EventController {
         return ResponseEntity.of(Optional.of(eventService.GetAllEvents()));
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<Event>> GetUpcomingEvents() {
+        return ResponseEntity.of(Optional.of(eventService.GetUpcomingEvents()));
+    }
+
     @GetMapping("/{eventId}")
     public ResponseEntity<Event> GetEvent(@PathVariable Integer eventId) {
         return ResponseEntity.of(Optional.of(eventService.GetEventById(eventId)));
@@ -54,5 +59,8 @@ public class EventController {
         return ResponseEntity.of(Optional.of(attendanceService.handleAttendance(attendance)));
     }
 
-
+    @GetMapping("{eventId}/participants")
+    public ResponseEntity<List<User>> GetParticipantsOfEnEvent(@PathVariable Integer eventId) {
+        return ResponseEntity.of(Optional.of(eventService.GetParticipants(eventId)));
+    }
 }
