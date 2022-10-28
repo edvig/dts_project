@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.controller;
 
+import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,12 @@ public class UserController {
     public ResponseEntity<Object> PutUser(@RequestBody User updatedUser) {
         User user = userService.UpdateUser(updatedUser);
         return ResponseEntity.of(Optional.of(user != null ? HttpStatus.NOT_FOUND : user));
-        //return ResponseEntity.of(Optional.of(userService.UpdateUser(updatedUser)));
     }
+
+    @GetMapping("/{userId}/myevents")
+    public ResponseEntity<List<Event>> GetEventsOrganizedByUser(@PathVariable Integer userId) {
+        return ResponseEntity.of(Optional.of(userService.GetEventsOrganizedByUser(userId)));
+    }
+
 
 }

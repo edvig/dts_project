@@ -17,6 +17,22 @@ public class EventService {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    UserService userService;
+
+    public Event CreateEvent(Event newEvent) {
+        User organizer = userService.GetUserById(newEvent.getOrganizerId());
+        if (organizer == null) return null;
+        newEvent.setOrganizer(organizer);
+        List<Event> events = organizer.getMyEvents();
+        events.add(newEvent);
+        organizer.setMyEvents(events);
+
+        Event savedEvent = SaveEvent(newEvent);
+        userService.SaveUser(organizer);
+        return savedEvent;
+    }
+
     public Event SaveEvent(Event newEvent) {
         return eventRepository.save(newEvent) ;
     }

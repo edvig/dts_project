@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.service;
 
+import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,7 @@ public class UserService {
 
     public User GetUserById(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        }
-        return null;
+        return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
     public User SaveUser(User user){
@@ -48,5 +46,9 @@ public class UserService {
             return userRepository.save(user);
         }
         return null;
+    }
+
+    public List<Event> GetEventsOrganizedByUser(Integer userId) {
+        return GetUserById(userId).getMyEvents();
     }
 }

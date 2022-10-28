@@ -25,7 +25,7 @@ public class EventController {
 
     @PostMapping()
     public ResponseEntity<Event> PostEvent(@RequestBody Event newEvent) {
-        return ResponseEntity.of(Optional.of(eventService.SaveEvent(newEvent)));
+        return ResponseEntity.of(Optional.of(eventService.CreateEvent(newEvent)));
     }
 
     @GetMapping()
@@ -60,7 +60,7 @@ public class EventController {
     }
 
     @GetMapping("{eventId}/participants")
-    public ResponseEntity<List<User>> GetParticipantsOfEnEvent(@PathVariable Integer eventId) {
-        return ResponseEntity.of(Optional.of(eventService.GetParticipants(eventId)));
+    public ResponseEntity<Object> GetParticipantsOfEnEvent(@PathVariable Integer eventId) {
+        return ResponseEntity.of(Optional.of(eventService.GetParticipants(eventId) != null? eventService.GetParticipants(eventId) : HttpStatus.NOT_FOUND));
     }
 }

@@ -40,10 +40,13 @@ public class Event {
     @Column(name = "TIME_OF_START")
     private String timeOfStart;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "USER_ID", nullable = false)
-//    private User organizer;
-//
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User organizer;
+
+    @Column(name = "organizerId")
+    private Integer organizerId;
+
     @ManyToMany()
     @Column(name = "user_id")
     @JsonIgnore

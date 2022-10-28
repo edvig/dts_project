@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,13 +34,15 @@ public class User {
     @Column(name = "AGE")
     private Integer age;
 
-//    // This relationship is to list the events organized by the user.
-//    // One event can have one organizer, one user can organize multiple events.
-//    @OneToMany
-//    private List<Event> myEvents;
-//
+    // This relationship is to list the events organized by the user.
+    // One event can have one organizer, one user can organize multiple events.
+    @OneToMany
+    @JsonIgnore
+    private List<Event> myEvents;
+
     // This relationship is to list the events where the user
     @ManyToMany
     @Column(name = "event_id")
+    @JsonIgnore
     private List<Event> events;
 }
