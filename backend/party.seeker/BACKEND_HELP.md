@@ -5,8 +5,12 @@
 - jdk (19)
 - maven
 
-## Steps to run
-- open ***backend/party.seeker*** in terminal
+## Easiest way to run backend services (right now only runs on Mac)
+- navigate to ***dts_project/backend***
+- double click on ***bakcend_services.command***
+
+## Steps to run backend services manually
+- open ***dts_project/backend/party.seeker*** in terminal
 - clean&build the project and create .jar file: ***./mvnw clean package -DskipTests***
 - copy the .jar file to docker folder: ***cp target/party.seeker-0.0.1-SNAPSHOT.jar src/main/docker***
 - change directory to ***src/main/docker***
