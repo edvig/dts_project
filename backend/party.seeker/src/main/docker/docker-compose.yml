@@ -18,6 +18,8 @@ services:
 
   db:
     image: 'postgres:15.0-alpine'
+#    volumes:
+#      - ./database:/var/lib/postgresql/data
     container_name: db
     environment:
       - POSTGRES_USER=compose-postgres

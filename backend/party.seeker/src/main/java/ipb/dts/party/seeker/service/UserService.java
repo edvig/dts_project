@@ -51,4 +51,8 @@ public class UserService {
     public List<Event> GetEventsOrganizedByUser(Integer userId) {
         return GetUserById(userId).getMyEvents();
     }
+
+    public List<Event> GetParticipationsByUser(Integer userId) {
+        return GetUserById(userId).getEvents();
+    }
 }

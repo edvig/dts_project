@@ -51,5 +51,10 @@ public class UserController {
         return ResponseEntity.of(Optional.of(userService.GetEventsOrganizedByUser(userId)));
     }
 
+    @GetMapping("/{userId}/participations")
+    public ResponseEntity<List<Event>> GetEventUserParticipate(@PathVariable Integer userId) {
+        return ResponseEntity.of(Optional.of(userService.GetParticipationsByUser(userId)));
+    }
+
 
 }
