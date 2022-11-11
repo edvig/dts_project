@@ -18,3 +18,6 @@
 ## Shutdown:
 - stop the currently running docker image with: ***docker compose down***
 - remove the outdated docker image with: ***docker rmi party_seeker:latest***
+## Clear the persisted data from DB:
+- open ***src/main/docker*** in terminal
+- run ***docker compose down -v***
