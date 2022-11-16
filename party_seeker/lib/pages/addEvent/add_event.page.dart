@@ -1,8 +1,49 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:party_seeker/pages/addEvent/addEvent.controller.dart';
+import 'package:party_seeker/pages/addEvent/addEvent.view.dart';
 
-class AddEventPage extends StatelessWidget {
-  const AddEventPage({Key? key}) : super(key: key);
+class AddEventPage extends StatefulWidget {
+  const AddEventPage({super.key});
+
+  @override
+  State<AddEventPage> createState() => _AddEventPageState();
+}
+
+class _AddEventPageState extends State<AddEventPage> implements AddEventView {
+  late AddEventController controller;
+  bool isLoading = false;
+  String errorMessage = "";
+  bool hasError = false;
+
+  @override
+  void initState() {
+    controller = AddEventController(this);
+    super.initState();
+  }
+
+  @override
+  Widget loading() => const CircularProgressIndicator(color: Colors.white);
+
+  @override
+  void navigateTo(String route) {
+    Navigator.pushNamed(context, route);
+  }
+
+  @override
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    setState(() {
+      hasError = true;
+      errorMessage = message;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
