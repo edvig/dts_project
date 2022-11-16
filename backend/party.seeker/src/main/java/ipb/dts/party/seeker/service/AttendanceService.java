@@ -19,9 +19,11 @@ public class AttendanceService {
     @Autowired
     private EventService eventService;
 
-    public User handleAttendance(Attendance attendance) {
+    public Event handleAttendance(Attendance attendance) {
         Event eventToAttend = eventService.GetEventById(attendance.getEventId());
         User userToAttend  = userService.GetUserById(attendance.getUserId());
+        if(eventToAttend == null || userToAttend == null)
+            return null;
         List<User> participants = eventToAttend.getParticipants();
         boolean userIsAlreadyOnParticipantList = participants.stream()
                 .filter(p -> p.getId() == userToAttend.getId())
@@ -42,7 +44,7 @@ public class AttendanceService {
         userService.SaveUser(userToAttend);
         eventService.SaveEvent(eventToAttend);
 
-        return userToAttend;
+        return eventToAttend;
     }
 
     private void attendUserIfNotOnParticipantsList(Event event, User user, List<User> participants) {

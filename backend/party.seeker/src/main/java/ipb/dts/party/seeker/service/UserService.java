@@ -6,6 +6,7 @@ import ipb.dts.party.seeker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    EventService eventService;
 
     public List<User> GetUsers() {
         return userRepository.findAll();
@@ -28,9 +32,32 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User CreateUser(User user) {
+        user.setEvents(new ArrayList<Event>());
+        user.setMyEvents(new ArrayList<Event>());
+        return SaveUser(user);
+    }
+
     public boolean DeleteUser(Integer userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(!optionalUser.isPresent())
+            return false;
+        User user = optionalUser.get();
+
+        user.getEvents().forEach(event -> {
+            event.getParticipants().remove(user);
+            eventService.SaveEvent(event);
+        });
+
+        user.getMyEvents().forEach(myEvent->{
+            eventService.RemoveEventById(myEvent.getId());
+        });
+
+        user.setEvents(null);
+        user.setMyEvents(null);
         userRepository.deleteById(userId);
-        return !userRepository.existsById(userId);
+
+        return true;
     }
 
     public User UpdateUser(User updatedUser) {
@@ -49,10 +76,24 @@ public class UserService {
     }
 
     public List<Event> GetEventsOrganizedByUser(Integer userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(!optionalUser.isPresent())
+            return null;
         return GetUserById(userId).getMyEvents();
     }
 
     public List<Event> GetParticipationsByUser(Integer userId) {
+        User optionalUser = GetUserById(userId);
+        if(optionalUser == null)
+            return null;
         return GetUserById(userId).getEvents();
+    }
+
+    public Event setUserForNewEvent(Event newEvent) {
+        User organizer = GetUserById(newEvent.getOrganizerId());
+        if (organizer == null) return null;
+        Event createdEvent = eventService.CreateEvent(newEvent, organizer);
+        SaveUser(organizer);
+        return createdEvent;
     }
 }

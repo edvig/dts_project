@@ -5,6 +5,7 @@ import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.service.AttendanceService;
 import ipb.dts.party.seeker.service.EventService;
+import ipb.dts.party.seeker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,14 @@ public class EventController {
     EventService eventService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     AttendanceService attendanceService;
 
     @PostMapping()
     public ResponseEntity<Event> PostEvent(@RequestBody Event newEvent) {
-        return ResponseEntity.of(Optional.of(eventService.CreateEvent(newEvent)));
+        return ResponseEntity.of(Optional.of(userService.setUserForNewEvent(newEvent)));
     }
 
     @GetMapping()
@@ -51,16 +55,19 @@ public class EventController {
 
     @DeleteMapping("{eventId}")
     public ResponseEntity DeleteEvent(@PathVariable Integer eventId) {
-        return ResponseEntity.of(Optional.of(eventService.DeleteEventById(eventId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+        return ResponseEntity.of(Optional.of(eventService.RemoveEventById(eventId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/attend")
-    public  ResponseEntity<User> AttendEvent(@RequestBody Attendance attendance) {
-        return ResponseEntity.of(Optional.of(attendanceService.handleAttendance(attendance)));
+    public  ResponseEntity<Object> AttendEvent(@RequestBody Attendance attendance) {
+        Event event = attendanceService.handleAttendance(attendance);
+        return ResponseEntity.of(Optional.of(event != null ? event : HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("{eventId}/participants")
+    @ResponseStatus(value=HttpStatus.NOT_FOUND, reason = "No such event.")  // 404
     public ResponseEntity<Object> GetParticipantsOfEnEvent(@PathVariable Integer eventId) {
-        return ResponseEntity.of(Optional.of(eventService.GetParticipants(eventId) != null? eventService.GetParticipants(eventId) : HttpStatus.NOT_FOUND));
+        List<User> participants = eventService.GetParticipants(eventId);
+        return ResponseEntity.of(Optional.of(participants != null? participants : HttpStatus.NOT_FOUND));
     }
 }
