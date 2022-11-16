@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:party_seeker/httpRequest/http_request.dart';
+import 'package:party_seeker/httpRequest/implementation/http_request.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'dio_interceptors.dart';
