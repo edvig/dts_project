@@ -134,7 +134,6 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
     if (hasError) {
       return error();
     }
-
     return isLoading ? loading() : loadList();
   }
 

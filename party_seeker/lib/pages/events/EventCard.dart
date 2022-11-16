@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:party_seeker/models/event.dart';
+import '../../config/date.extension.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -127,7 +128,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.formatedDate,
+                      event.date.toSimpleDateString(),
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -145,7 +146,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.formatedHour,
+                      event.date.toFormatedHour(),
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -339,7 +340,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.formatedDate,
+                        event.date.toSimpleDateString(),
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -357,7 +358,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.formatedHour,
+                        event.date.toFormatedHour(),
                         style: Theme.of(context)
                             .textTheme
                             .headline3

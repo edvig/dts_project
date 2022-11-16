@@ -6,8 +6,6 @@ class Event {
   int minAge;
   double cost;
 
-  String get formatedHour => "${date.hour}:${date.minute}";
-  String get formatedDate => "${date.day}/${date.month}/${date.year}";
   String get formatedCost => "$cost€";
 
   Event(
