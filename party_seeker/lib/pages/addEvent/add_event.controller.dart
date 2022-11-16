@@ -1,5 +1,5 @@
 import 'package:party_seeker/models/event.dart';
-import 'package:party_seeker/pages/addEvent/addEvent.view.dart';
+import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
 class AddEventController {
   AddEventView _view;

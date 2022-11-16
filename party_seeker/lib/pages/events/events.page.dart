@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:party_seeker/models/event.dart';
-import 'package:party_seeker/pages/events/EventCard.dart';
+import 'package:party_seeker/pages/events/event_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../config/routes.dart';
 import 'events.controller.dart';

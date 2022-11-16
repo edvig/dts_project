@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:party_seeker/pages/addEvent/addEvent.controller.dart';
-import 'package:party_seeker/pages/addEvent/addEvent.view.dart';
+import 'package:party_seeker/pages/addEvent/add_event.controller.dart';
+import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({super.key});

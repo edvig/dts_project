@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:party_seeker/pages/addEvent/addEvent.page.dart';
+import 'package:party_seeker/pages/addEvent/add_event.page.dart';
 import 'package:party_seeker/pages/events/events.page.dart';
 import 'package:party_seeker/pages/login/login.page.dart';
 import 'package:party_seeker/pages/profile/profile.page.dart';
