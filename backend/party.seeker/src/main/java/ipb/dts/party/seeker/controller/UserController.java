@@ -21,8 +21,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<User> PostUser(@RequestBody User newUser){
-        return ResponseEntity.of(Optional.of(userService.SaveUser(newUser)));
-
+        return ResponseEntity.of(Optional.of(userService.CreateUser(newUser)));
     }
 
     @GetMapping("{userId}")
@@ -47,13 +46,15 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/myevents")
-    public ResponseEntity<List<Event>> GetEventsOrganizedByUser(@PathVariable Integer userId) {
-        return ResponseEntity.of(Optional.of(userService.GetEventsOrganizedByUser(userId)));
+    public ResponseEntity<Object> GetEventsOrganizedByUser(@PathVariable Integer userId) {
+        List<Event> events = userService.GetEventsOrganizedByUser(userId);
+        return ResponseEntity.of(Optional.of(events != null ? events : HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{userId}/participations")
-    public ResponseEntity<List<Event>> GetEventUserParticipate(@PathVariable Integer userId) {
-        return ResponseEntity.of(Optional.of(userService.GetParticipationsByUser(userId)));
+    public ResponseEntity<Object> GetEventUserParticipate(@PathVariable Integer userId) {
+        List<Event> participations = userService.GetParticipationsByUser(userId);
+        return ResponseEntity.of(Optional.of(participations != null ? participations : HttpStatus.NOT_FOUND));
     }
 
 

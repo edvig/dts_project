@@ -2,7 +2,9 @@ package ipb.dts.party.seeker.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -40,7 +42,7 @@ public class Event {
     @Column(name = "TIME_OF_START")
     private String timeOfStart;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User organizer;
 
@@ -50,6 +52,14 @@ public class Event {
     @ManyToMany()
     @Column(name = "user_id")
     @JsonIgnore
-    private List<User> participants;
+    private List<User> participants = new ArrayList<>();
 
+    @Column(name = "numOfParticipants")
+    @Transient
+    @Getter(AccessLevel.NONE)
+    private long numOfParticipants;
+
+    public long getNumOfParticipants(){
+        return participants.stream().count();
+    }
 }
