@@ -1,4 +1,3 @@
-import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/usecases/events_usecase.dart';
 
 import 'events.view.dart';
@@ -6,7 +5,6 @@ import 'events.view.dart';
 class EventsController {
   EventsView _view;
   final EventsUseCase _useCase = EventsUseCase();
-  String? errorMessage;
 
   EventsController(this._view);
 
@@ -18,7 +16,7 @@ class EventsController {
     if (eventsResult.isSuccess) {
       _view.setEvents(eventsResult.data!);
     } else {
-      errorMessage = "We have some problem to load events. Try again";
+      _view.showErrorMessage("We have some problem to load events. Try again");
     }
     _view.setLoading(false);
   }

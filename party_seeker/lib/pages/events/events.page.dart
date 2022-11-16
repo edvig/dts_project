@@ -16,10 +16,13 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageState extends State<EventsPage> implements EventsView {
   late EventsController controller;
-  bool loading = false;
+  bool isLoading = false;
+  String errorMessage = "";
+  bool hasError = false;
+  List<Event> events = [];
+
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  List<Event> events = [];
 
   @override
   void initState() {
@@ -36,14 +39,23 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
   @override
   void setLoading(bool value) {
     setState(() {
-      loading = value;
+      isLoading = value;
     });
   }
 
   @override
   void setEvents(List<Event> value) {
     setState(() {
+      hasError = false;
       events = value;
+    });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    setState(() {
+      hasError = true;
+      errorMessage = message;
     });
   }
 
@@ -53,8 +65,7 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
   }
 
   void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
+    controller.loadEvents();
     _refreshController.loadComplete();
   }
 
@@ -99,47 +110,63 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
         ],
       ),
       body: SmartRefresher(
-        header: CustomHeader(
-          refreshStyle: RefreshStyle.Behind,
-          builder: (c, m) {
-            return Container(
-              alignment: Alignment.center,
-              child: const CupertinoActivityIndicator(
-                radius: 15,
-                color: Colors.white,
-              ),
-            );
-          },
-        ),
-        physics: const BouncingScrollPhysics(),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: loading
-            ? const Center(
-                child: CircularProgressIndicator(
+          header: CustomHeader(
+            refreshStyle: RefreshStyle.Behind,
+            builder: (c, m) {
+              return Container(
+                alignment: Alignment.center,
+                child: const CupertinoActivityIndicator(
+                  radius: 15,
                   color: Colors.white,
                 ),
-              )
-            : ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  bottom: 30,
-                  left: 20,
-                  right: 20,
-                ),
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 15,
-                  );
-                },
-                itemCount: events.length,
-                itemBuilder: (_, i) => EventCard(
-                  event: events[i],
-                ),
-              ),
-      ),
+              );
+            },
+          ),
+          physics: const BouncingScrollPhysics(),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: page()),
     );
   }
+
+  Widget page() {
+    if (hasError) {
+      return error();
+    }
+
+    return isLoading ? loading() : loadList();
+  }
+
+  Widget loading() => const Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      );
+
+  Widget error() => Center(
+        child: Text(
+          errorMessage,
+          style: Theme.of(context).textTheme.headline1,
+        ),
+      );
+
+  Widget loadList() => ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(
+          top: 20,
+          bottom: 30,
+          left: 20,
+          right: 20,
+        ),
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(
+            height: 15,
+          );
+        },
+        itemCount: events.length,
+        itemBuilder: (_, i) => EventCard(
+          event: events[i],
+        ),
+      );
 }
