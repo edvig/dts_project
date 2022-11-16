@@ -138,6 +138,7 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
     return isLoading ? loading() : loadList();
   }
 
+  @override
   Widget loading() => const Center(
         child: CircularProgressIndicator(
           color: Colors.white,
