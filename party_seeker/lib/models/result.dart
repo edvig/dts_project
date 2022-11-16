@@ -1,5 +1,5 @@
 class Result<T> {
-  T data;
+  T? data;
   bool isSuccess;
   bool get hasError => !isSuccess;
 
