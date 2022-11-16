@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:party_seeker/models/event.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key});
+  final Event event;
+
+  const EventCard({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class EventCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Quiz Party',
+                        event.title,
                         style: Theme.of(context).textTheme.headline1?.copyWith(
                               fontWeight: FontWeight.w800,
                             ),
@@ -59,7 +62,7 @@ class EventCard extends StatelessWidget {
                                   width: 5,
                                   color: Colors.white,
                                 ),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(100),
                                 ),
                               ),
@@ -106,7 +109,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      'Kopus Bar',
+                      event.local,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -124,7 +127,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      '24/09/2022',
+                      event.formatedDate,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -142,7 +145,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      '22:00',
+                      event.formatedHour,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -160,7 +163,7 @@ class EventCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      '13',
+                      "${event.minAge}",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -172,13 +175,8 @@ class EventCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(
-                      CupertinoIcons.money_euro,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 5),
                     Text(
-                      '1',
+                      event.formatedCost,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -202,7 +200,7 @@ class EventCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Create your team of 5 people and be ready to play a trivia game about history, geography, music and moreCreate your team of 5 people and be ready to play a trivia game about history, geography, music and more',
+                        event.description,
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
@@ -234,7 +232,7 @@ class EventCard extends StatelessWidget {
                   onTap: () {},
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  child: true
+                  child: false
                       ? Container(
                           height: 90,
                           width: 110,
@@ -243,7 +241,7 @@ class EventCard extends StatelessWidget {
                               width: 5,
                               color: Colors.white,
                             ),
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(100),
                             ),
                           ),
@@ -286,7 +284,7 @@ class EventCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Quiz Party',
+                        event.title,
                         style: Theme.of(context).textTheme.headline1?.copyWith(
                               fontWeight: FontWeight.w800,
                             ),
@@ -302,7 +300,7 @@ class EventCard extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            '1' + '€',
+                            event.formatedCost,
                             style:
                                 Theme.of(context).textTheme.headline2?.copyWith(
                                       color: Colors.black,
@@ -323,7 +321,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        'Kopus Bar',
+                        event.local,
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -341,7 +339,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        '24/09/2022',
+                        event.formatedDate,
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -359,7 +357,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        '22:00',
+                        event.formatedHour,
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -377,7 +375,7 @@ class EventCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        '13',
+                        "${event.minAge}",
                         style: Theme.of(context)
                             .textTheme
                             .headline3
