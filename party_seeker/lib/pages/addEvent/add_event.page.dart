@@ -73,29 +73,40 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
           right: 20,
         ),
         children: [
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Title',
+            keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Date',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Time',
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.datetime,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Price',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
+            placeholder: 'Local',
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: 15),
+          const CupertinoTextField(
+            placeholder: 'Minimum age',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 15),
+          const CupertinoTextField(
             placeholder: 'Description',
             maxLines: 10,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 30),
           InkWell(
@@ -111,7 +122,7 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Center(
-                  child: false
+                  child: isLoading
                       ? const CupertinoActivityIndicator(
                           radius: 15,
                           color: Colors.white,

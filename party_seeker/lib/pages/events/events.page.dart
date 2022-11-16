@@ -139,7 +139,7 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
 
   @override
   Widget loading() => const Center(
-        child: CircularProgressIndicator(
+        child: CupertinoActivityIndicator(
           color: Colors.white,
         ),
       );
