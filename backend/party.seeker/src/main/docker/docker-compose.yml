@@ -26,5 +26,7 @@ services:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
       - POSTGRES_DB=party_seeker_db
+
 volumes:
   database:
+
