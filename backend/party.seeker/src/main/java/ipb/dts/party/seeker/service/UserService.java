@@ -4,6 +4,7 @@ import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +26,12 @@ public class UserService {
 
     public User GetUserById(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.isPresent() ? optionalUser.get() : null;
+        return optionalUser.orElse(null);
+    }
+
+    public User GetUserByUsername(String username){
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        return optionalUser.orElse(null);
     }
 
     public User SaveUser(User user){
@@ -35,12 +41,13 @@ public class UserService {
     public User CreateUser(User user) {
         user.setEvents(new ArrayList<Event>());
         user.setMyEvents(new ArrayList<Event>());
+        user.setPassword(encode(user.getPassword()));
         return SaveUser(user);
     }
 
     public boolean DeleteUser(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        if(!optionalUser.isPresent())
+        if(optionalUser.isEmpty())
             return false;
         User user = optionalUser.get();
 
@@ -64,8 +71,8 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(updatedUser.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setAge(updatedUser.getAge());
-            user.setPassword(updatedUser.getPassword());
+            user.setBirthDay(updatedUser.getBirthDay());
+            user.setPassword(encode(updatedUser.getPassword()));
             user.setUsername(updatedUser.getUsername());
             user.setFirstName(updatedUser.getFirstName());
             user.setLastName(updatedUser.getLastName());
@@ -77,7 +84,7 @@ public class UserService {
 
     public List<Event> GetEventsOrganizedByUser(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        if(!optionalUser.isPresent())
+        if(optionalUser.isEmpty())
             return null;
         return GetUserById(userId).getMyEvents();
     }
@@ -95,5 +102,9 @@ public class UserService {
         Event createdEvent = eventService.CreateEvent(newEvent, organizer);
         SaveUser(organizer);
         return createdEvent;
+    }
+
+    private String encode(String password){
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

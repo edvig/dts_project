@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,18 +23,17 @@ public class User {
     @Column(name = "LAST_NAME")
     private String lastName;
 
-    @Column(name = "EMAIL_ADDRESS")
+    @Column(name = "EMAIL_ADDRESS", unique = true)
     private String emailAddress;
 
     @Column(name = "PASSWORD")
-    @JsonIgnore
     private String password;
 
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", unique = true)
     private String username;
 
-    @Column(name = "AGE")
-    private Integer age;
+    @Column(name = "birthDay")
+    private Date birthDay;
 
     // This relationship is to list the events organized by the user.
     // One event can have one organizer, one user can organize multiple events.
