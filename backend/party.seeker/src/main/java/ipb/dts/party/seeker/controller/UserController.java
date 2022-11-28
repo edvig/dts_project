@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<List<UserView>> GetUsers() {
-        List<UserView> users = userService.GetUsers().stream().map(user -> new UserView(user.getId(), user.getLastName(), user.getLastName(), user.getEmailAddress(), user.getUsername(), user.getBirthDay())).toList();
+        List<UserView> users = userService.GetUsers().stream().map(user -> new UserView(user.getId(), user.getFirstName(), user.getLastName(), user.getEmailAddress(), user.getUsername(), user.getBirthDay())).toList();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
