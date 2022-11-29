@@ -201,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       horizontal: 25,
                                       vertical: 15,
                                     ),
-                                    content: Container(
+                                    content: SizedBox(
                                       height: 60,
                                       child: Text(
                                         'This event will be deleted forever',
