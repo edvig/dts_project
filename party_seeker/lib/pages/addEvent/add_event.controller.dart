@@ -6,14 +6,10 @@ class AddEventController {
 
   AddEventController(this._view);
 
-  Future<void> createNewEvent(String title, DateTime dateTime, double price,
-      String description, String local, int minAge) async {
-    var event = Event(
-        title: title,
-        local: local,
-        date: dateTime,
-        minAge: minAge,
-        cost: price,
-        description: description);
+  Future<void> createNewEvent() async {
+    if (_view.isFormValid()) {
+      var event = _view.getNewEvent();
+      //send event to api
+    }
   }
 }

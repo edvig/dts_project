@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:party_seeker/pages/addEvent/add_event.controller.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
+import '../../components/CustomTextField.dart';
+import '../../models/event.dart';
+
 class AddEventPage extends StatefulWidget {
   const AddEventPage({super.key});
 
@@ -15,11 +18,36 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
   bool isLoading = false;
   String errorMessage = "";
   bool hasError = false;
+  final _formKey = GlobalKey<FormState>();
+
+  final titleController = TextEditingController();
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
+  final priceController = TextEditingController();
+  final localController = TextEditingController();
+  final minimunAgeController = TextEditingController();
+  final descriptionController = TextEditingController();
+
+  void disposeTextEditingController() {
+    titleController.dispose();
+    dateController.dispose();
+    timeController.dispose();
+    priceController.dispose();
+    localController.dispose();
+    minimunAgeController.dispose();
+    descriptionController.dispose();
+  }
 
   @override
   void initState() {
     controller = AddEventController(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    disposeTextEditingController();
+    super.dispose();
   }
 
   @override
@@ -46,6 +74,29 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
   }
 
   @override
+  bool isFormValid() {
+    return _formKey.currentState!.validate();
+  }
+
+  @override
+  Event getNewEvent() {
+    return Event(
+        title: titleController.text,
+        local: localController.text,
+        date: DateTime.parse(dateController.text),
+        minAge: int.parse(minimunAgeController.text),
+        cost: double.parse(priceController.text),
+        description: descriptionController.text);
+  }
+
+  String? validator(String? value) {
+    if (value == null) {
+      return "Please enter the information";
+    }
+    return null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -64,81 +115,84 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
           child: const Icon(CupertinoIcons.left_chevron),
         ),
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          top: 20,
-          bottom: 30,
-          left: 20,
-          right: 20,
-        ),
-        children: [
-          const CupertinoTextField(
-            placeholder: 'Title',
-            keyboardType: TextInputType.text,
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(
+            top: 20,
+            bottom: 30,
+            left: 20,
+            right: 20,
           ),
-          const SizedBox(height: 15),
-          const CupertinoTextField(
-            placeholder: 'Date',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CupertinoTextField(
-            placeholder: 'Time',
-            keyboardType: TextInputType.datetime,
-          ),
-          const SizedBox(height: 15),
-          const CupertinoTextField(
-            placeholder: 'Price',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CupertinoTextField(
-            placeholder: 'Local',
-            keyboardType: TextInputType.text,
-          ),
-          const SizedBox(height: 15),
-          const CupertinoTextField(
-            placeholder: 'Minimum age',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CupertinoTextField(
-            placeholder: 'Description',
-            maxLines: 10,
-            keyboardType: TextInputType.text,
-          ),
-          const SizedBox(height: 30),
-          InkWell(
-            onTap: () {},
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.white,
+          children: [
+            CustomTextField(
+              hintText: 'Title',
+              validator: validator,
+            ),
+            const SizedBox(height: 15),
+            CustomTextField(
+              hintText: 'Date',
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 15),
+            CustomTextField(
+              hintText: 'Time',
+              keyboardType: TextInputType.datetime,
+            ),
+            const SizedBox(height: 15),
+            CustomTextField(
+              hintText: 'Price',
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 15),
+            CustomTextField(
+              hintText: 'Local',
+              keyboardType: TextInputType.text,
+            ),
+            const SizedBox(height: 15),
+            CustomTextField(
+              hintText: 'Minimum age',
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 15),
+            CustomTextField(
+              hintText: 'Description',
+              maxLines: 10,
+              keyboardType: TextInputType.text,
+            ),
+            const SizedBox(height: 30),
+            InkWell(
+              onTap: () {},
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.white,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(100))),
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Center(
+                    child: isLoading
+                        ? const CupertinoActivityIndicator(
+                            radius: 15,
+                            color: Colors.white,
+                          )
+                        : Text(
+                            'Create',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline2
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(100))),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Center(
-                  child: isLoading
-                      ? const CupertinoActivityIndicator(
-                          radius: 15,
-                          color: Colors.white,
-                        )
-                      : Text(
-                          'Create',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline2
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
