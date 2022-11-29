@@ -50,7 +50,6 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
     super.dispose();
   }
 
-  @override
   Widget loading() => const CircularProgressIndicator(color: Colors.white);
 
   @override
