@@ -59,27 +59,27 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
             ),
           ),
           const SizedBox(height: 30),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Email',
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'First Name',
             keyboardType: TextInputType.name,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Last Name',
             keyboardType: TextInputType.name,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Birthday',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Password',
             keyboardType: TextInputType.visiblePassword,
           ),

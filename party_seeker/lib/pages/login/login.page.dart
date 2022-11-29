@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:party_seeker/components/CustomButton.dart';
 import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/login/login.controller.dart';
 import 'package:party_seeker/pages/login/login.view.dart';
@@ -67,12 +66,12 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
             ),
           ),
           const SizedBox(height: 30),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Email',
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Password',
             keyboardType: TextInputType.visiblePassword,
           ),
@@ -112,7 +111,7 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           Center(
             child: InkWell(
                 onTap: () {
-                  navigateTo(Routes.sign_up);
+                  navigateTo(Routes.signUp);
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,

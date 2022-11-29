@@ -32,26 +32,26 @@ class EditEventPage extends StatelessWidget {
           right: 20,
         ),
         children: [
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Title',
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Date',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Time',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Price',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
+          const CupertinoTextField(
             placeholder: 'Description',
             maxLines: 10,
             keyboardType: TextInputType.number,

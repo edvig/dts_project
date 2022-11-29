@@ -109,7 +109,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.local,
+                      event.location,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -163,7 +163,7 @@ class EventCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      "${event.minAge}",
+                      "${event.minAgeToAttend}",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -321,7 +321,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.local,
+                        event.location,
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -375,7 +375,7 @@ class EventCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        "${event.minAge}",
+                        "${event.minAgeToAttend}",
                         style: Theme.of(context)
                             .textTheme
                             .headline3

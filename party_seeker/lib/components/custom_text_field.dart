@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final int? maxLines;
-  TextEditingController? controller;
+  final TextEditingController? controller;
 
-  CustomTextField(
+  const CustomTextField(
       {super.key,
       required this.hintText,
       this.validator,

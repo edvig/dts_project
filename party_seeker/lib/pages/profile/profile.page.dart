@@ -15,12 +15,10 @@ class _ProfilePageState extends State<ProfilePage> {
   late ProfileController controller;
   bool loading = false;
 
-  @override
   void navigateTo(String route) {
     Navigator.pushNamed(context, route);
   }
 
-  @override
   void setLoading(bool value) {
     setState(() {
       loading = value;
@@ -60,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Expanded(
                   child: Text(
-                    'Matheus' + ' ' + 'Galvao',
+                    'Matheus Galvao',
                     style: Theme.of(context).textTheme.headline2,
                   ),
                 ),
@@ -141,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 30),
             ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: 10,
               itemBuilder: (context, index) {
@@ -160,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width * .5,
                         child: Text(
                           'Quiz Party',

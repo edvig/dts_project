@@ -26,4 +26,12 @@ class EventsUseCase {
       return Result(data: null, isSuccess: false);
     }
   }
+
+  Future<Result<Event>> createEvent(Event event) async {
+    try {
+      return Result(data: Event.fromJson({}), isSuccess: true);
+    } catch (ex) {
+      return Result(data: null, isSuccess: false);
+    }
+  }
 }

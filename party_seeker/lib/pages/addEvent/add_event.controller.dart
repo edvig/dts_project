@@ -1,15 +1,18 @@
-import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
+import '../../usecases/events_usecase.dart';
+
 class AddEventController {
-  AddEventView _view;
+  final AddEventView _view;
+  final EventsUseCase _useCase = EventsUseCase();
 
   AddEventController(this._view);
 
   Future<void> createNewEvent() async {
     if (_view.isFormValid()) {
       var event = _view.getNewEvent();
-      //send event to api
+      var result = _useCase.createEvent(event);
+      //set error, loading, message, ....
     }
   }
 }

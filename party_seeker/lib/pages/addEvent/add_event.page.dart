@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:party_seeker/pages/addEvent/add_event.controller.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
-import '../../components/CustomTextField.dart';
+import '../../components/custom_text_field.dart';
 import '../../models/event.dart';
 
 class AddEventPage extends StatefulWidget {
@@ -82,11 +82,13 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
   Event getNewEvent() {
     return Event(
         title: titleController.text,
-        local: localController.text,
+        location: localController.text,
         date: DateTime.parse(dateController.text),
-        minAge: int.parse(minimunAgeController.text),
-        cost: double.parse(priceController.text),
-        description: descriptionController.text);
+        minAgeToAttend: int.parse(minimunAgeController.text),
+        price: double.parse(priceController.text),
+        description: descriptionController.text,
+        // TODO: get organizer Id from shared preferences after implement login
+        organizerId: 1);
   }
 
   String? validator(String? value) {
@@ -131,32 +133,32 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
               validator: validator,
             ),
             const SizedBox(height: 15),
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Date',
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 15),
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Time',
               keyboardType: TextInputType.datetime,
             ),
             const SizedBox(height: 15),
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Price',
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 15),
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Local',
               keyboardType: TextInputType.text,
             ),
             const SizedBox(height: 15),
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Minimum age',
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 15),
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Description',
               maxLines: 10,
               keyboardType: TextInputType.text,

@@ -1,26 +1,51 @@
 class Event {
+  int? id;
   String title;
-  String local;
+  String location;
   String description;
   DateTime date;
-  int minAge;
-  double cost;
+  int minAgeToAttend;
+  double price;
+  int? limitOfAttendants;
+  double? timeOfStart;
+  int organizerId;
 
-  String get formatedCost => "$cost€";
+  String get formatedCost => "$price";
 
   Event(
       {required this.title,
-      required this.local,
+      required this.location,
       required this.date,
-      required this.minAge,
-      required this.cost,
-      required this.description});
+      required this.minAgeToAttend,
+      required this.price,
+      required this.description,
+      this.limitOfAttendants,
+      this.timeOfStart,
+      this.id,
+      required this.organizerId});
 
   Event.fromJson(Map<String, dynamic> json)
       : title = json["title"],
-        local = json["local"],
+        location = json["location"],
         description = json["description"],
         date = DateTime.tryParse(json["date"]) ?? DateTime(1900),
-        minAge = json["minAge"],
-        cost = json["cost"];
+        minAgeToAttend = json["minAgeToAttend"],
+        price = json["price"],
+        organizerId = json["organizerId"],
+        id = json["id"],
+        limitOfAttendants = json["limitOfAttendants"],
+        timeOfStart = json["timeOfStart"];
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "location": location,
+        "description": description,
+        "date": date.toIso8601String(),
+        "minAgeToAttend": minAgeToAttend,
+        "price": price,
+        "limitOfAttendants": limitOfAttendants,
+        "timeOfStart": timeOfStart,
+        "organizerId": organizerId,
+      };
 }
