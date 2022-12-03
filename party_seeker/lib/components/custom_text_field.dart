@@ -24,8 +24,7 @@ class CustomTextField extends StatelessWidget {
           hintText: hintText,
           filled: true,
           fillColor: Colors.white,
-          border:
-              UnderlineInputBorder(borderRadius: BorderRadius.circular(20))),
+          border: UnderlineInputBorder(borderRadius: BorderRadius.circular(5))),
       keyboardType: keyboardType,
       maxLines: maxLines,
     );

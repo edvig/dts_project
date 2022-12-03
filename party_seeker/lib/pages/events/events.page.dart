@@ -144,9 +144,13 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
       );
 
   Widget error() => Center(
-        child: Text(
-          errorMessage,
-          style: Theme.of(context).textTheme.headline1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            errorMessage,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline2,
+          ),
         ),
       );
 

@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: 10,
+              itemCount: 5,
               itemBuilder: (context, index) {
                 return Container(
                   height: 60,
