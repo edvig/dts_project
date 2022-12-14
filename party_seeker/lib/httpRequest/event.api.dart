@@ -3,7 +3,7 @@ import 'package:party_seeker/models/event.dart';
 
 class EventApi {
   final DioImpl httpRequest = DioImpl();
-  final String baseUrl = "https://localhost:8080/events";
+  final String baseUrl = "http://localhost:8080/events";
 
   EventApi() {
     //TODO add headers after create login

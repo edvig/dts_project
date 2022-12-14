@@ -17,17 +17,13 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
   int counter = 0;
   bool loading = false;
 
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   void initState() {
     controller = LoginController(this);
     super.initState();
-  }
-
-  @override
-  void increment(int newCounter) {
-    setState(() {
-      counter = newCounter;
-    });
   }
 
   @override
@@ -40,6 +36,21 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
     setState(() {
       loading = value;
     });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    var snackBar = SnackBar(
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -66,18 +77,21 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
             ),
           ),
           const SizedBox(height: 30),
-          const CupertinoTextField(
-            placeholder: 'Email',
+          CupertinoTextField(
+            placeholder: 'Username',
             keyboardType: TextInputType.emailAddress,
+            controller: usernameController,
           ),
           const SizedBox(height: 15),
-          const CupertinoTextField(
+          CupertinoTextField(
             placeholder: 'Password',
             keyboardType: TextInputType.visiblePassword,
+            controller: passwordController,
           ),
           const SizedBox(height: 30),
           InkWell(
-            onTap: () => controller.login("email", "password"),
+            onTap: () => controller.login(
+                usernameController.text, passwordController.text),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: Container(
