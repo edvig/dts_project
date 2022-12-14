@@ -1,7 +1,7 @@
 class Event {
   int? id;
   String title;
-  String location;
+  String? location;
   String description;
   DateTime date;
   int minAgeToAttend;
@@ -27,9 +27,9 @@ class Event {
   Event.fromJson(Map<String, dynamic> json)
       : title = json["title"],
         location = json["location"],
-        description = json["description"],
-        date = DateTime.tryParse(json["date"]) ?? DateTime(1900),
-        minAgeToAttend = json["minAgeToAttend"],
+        description = json["description"] ?? "",
+        date = _parseDate(json["date"]),
+        minAgeToAttend = json["minAgeToAttend"] ?? 0,
         price = json["price"],
         organizerId = json["organizerId"],
         id = json["id"],
@@ -48,4 +48,10 @@ class Event {
         "timeOfStart": timeOfStart,
         "organizerId": organizerId,
       };
+
+  static DateTime _parseDate(String? date) {
+    if (date == null) return DateTime(1900);
+    var dateParsed = DateTime.tryParse(date);
+    return dateParsed ?? DateTime(1900);
+  }
 }

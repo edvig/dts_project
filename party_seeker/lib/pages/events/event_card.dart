@@ -109,7 +109,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.location,
+                      event.location ?? "-",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -321,7 +321,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.location,
+                        event.location ?? "-",
                         style: Theme.of(context)
                             .textTheme
                             .headline3
