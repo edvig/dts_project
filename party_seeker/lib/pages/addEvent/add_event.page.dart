@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:party_seeker/pages/addEvent/add_event.controller.dart';
@@ -82,6 +83,9 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
     return _formKey.currentState!.validate();
   }
 
+  double priceStringToDouble(String value) =>
+      double.parse(value.replaceAll("€", ""));
+
   @override
   Event getNewEvent() {
     return Event(
@@ -89,7 +93,7 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
         location: localController.text,
         date: dateTime!,
         minAgeToAttend: int.parse(minimunAgeController.text),
-        price: double.parse(priceController.text),
+        price: priceStringToDouble(priceController.text),
         description: descriptionController.text,
         // TODO: get organizer Id from shared preferences after implement login
         organizerId: 1);
@@ -170,6 +174,9 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
               keyboardType: TextInputType.number,
               controller: priceController,
               validator: validator,
+              inputFormatters: [
+                CurrencyTextInputFormatter(symbol: "€", enableNegative: false)
+              ],
             ),
             const SizedBox(height: 15),
             CustomTextField(
