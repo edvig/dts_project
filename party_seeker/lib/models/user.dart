@@ -1,15 +1,21 @@
 class User {
-  String? name;
-  int? age;
-  String? token;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? emailAddress;
+  String? username;
+  DateTime? birthday;
 
   User.fromJson(Map userJson) {
-    name = userJson["name"];
-    age = userJson["age"];
-    token = userJson["token"];
+    id = userJson["id"];
+    firstName = userJson["firstName"];
+    lastName = userJson["lastName"];
+    emailAddress = userJson["emailAddress"];
+    username = userJson["username"];
+    birthday = DateTime.tryParse(userJson["birthday"]);
   }
 
-  Map toJson() {
-    return {"name": name, "age": age, "token": token};
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }

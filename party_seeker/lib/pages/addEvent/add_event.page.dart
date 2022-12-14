@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:party_seeker/pages/addEvent/add_event.controller.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
+import '../../config/date.extension.dart';
 
+import '../../components/custom_datetime_picker.dart';
 import '../../components/custom_text_field.dart';
 import '../../models/event.dart';
 
@@ -22,16 +24,16 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
 
   final titleController = TextEditingController();
   final dateController = TextEditingController();
-  final timeController = TextEditingController();
   final priceController = TextEditingController();
   final localController = TextEditingController();
   final minimunAgeController = TextEditingController();
   final descriptionController = TextEditingController();
 
+  DateTime? dateTime;
+
   void disposeTextEditingController() {
     titleController.dispose();
     dateController.dispose();
-    timeController.dispose();
     priceController.dispose();
     localController.dispose();
     minimunAgeController.dispose();
@@ -50,7 +52,10 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
     super.dispose();
   }
 
-  Widget loading() => const CircularProgressIndicator(color: Colors.white);
+  Widget loading() => const CupertinoActivityIndicator(
+        radius: 15,
+        color: Colors.white,
+      );
 
   @override
   void navigateTo(String route) {
@@ -82,7 +87,7 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
     return Event(
         title: titleController.text,
         location: localController.text,
-        date: DateTime.parse(dateController.text),
+        date: dateTime!,
         minAgeToAttend: int.parse(minimunAgeController.text),
         price: double.parse(priceController.text),
         description: descriptionController.text,
@@ -91,10 +96,24 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
   }
 
   String? validator(String? value) {
-    if (value == null) {
+    if (value == null || value == "") {
       return "Please enter the information";
     }
     return null;
+  }
+
+  dateTimePickerModal() {
+    showCupertinoModalPopup(
+        context: context,
+        builder: (_) => CustonDatetimePicker(
+              value: dateTime ?? DateTime.now(),
+              onDateTimeChanged: (DateTime value) {
+                setState(() {
+                  dateTime = value;
+                  dateController.text = value.toSimpleDateAndHour();
+                });
+              },
+            ));
   }
 
   @override
@@ -130,71 +149,82 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
             CustomTextField(
               hintText: 'Title',
               validator: validator,
+              controller: titleController,
             ),
             const SizedBox(height: 15),
-            const CustomTextField(
-              hintText: 'Date',
-              keyboardType: TextInputType.number,
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              child: CustomTextField(
+                hintText: "Date and hour",
+                controller: dateController,
+                onTap: dateTimePickerModal,
+                readOnly: true,
+                validator: validator,
+              ),
             ),
             const SizedBox(height: 15),
-            const CustomTextField(
-              hintText: 'Time',
-              keyboardType: TextInputType.datetime,
-            ),
-            const SizedBox(height: 15),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Price',
               keyboardType: TextInputType.number,
+              controller: priceController,
+              validator: validator,
             ),
             const SizedBox(height: 15),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Local',
               keyboardType: TextInputType.text,
+              controller: localController,
+              validator: validator,
             ),
             const SizedBox(height: 15),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Minimum age',
               keyboardType: TextInputType.number,
+              controller: minimunAgeController,
+              validator: validator,
             ),
             const SizedBox(height: 15),
-            const CustomTextField(
+            CustomTextField(
               hintText: 'Description',
               maxLines: 10,
               keyboardType: TextInputType.text,
+              controller: descriptionController,
+              validator: validator,
             ),
             const SizedBox(height: 30),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.white,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(100))),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Center(
-                    child: isLoading
-                        ? const CupertinoActivityIndicator(
-                            radius: 15,
-                            color: Colors.white,
-                          )
-                        : Text(
-                            'Create',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline2
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                  ),
-                ),
-              ),
-            ),
+            createButton()
           ],
         ),
       ),
     );
   }
+
+  Widget createButton() => InkWell(
+        onTap: controller.createNewEvent,
+        child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+              border: Border.all(
+                width: 3,
+                color: Colors.white,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(100))),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Center(
+              child: isLoading
+                  ? loading()
+                  : Text(
+                      'Create',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline2
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+            ),
+          ),
+        ),
+      );
 }

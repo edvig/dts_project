@@ -5,6 +5,11 @@ class EventApi {
   final DioImpl httpRequest = DioImpl();
   final String baseUrl = "https://localhost:8080/events";
 
+  EventApi() {
+    //TODO add headers after create login
+    httpRequest.setHeader({"Authorization": "Bearer token"});
+  }
+
   Future<List<Event>> getAllEvents() async {
     try {
       var result = await httpRequest.get(baseUrl);
@@ -39,8 +44,7 @@ class EventApi {
 
   Future<Event> createEvent(Event event) async {
     try {
-      var url = "$baseUrl/events";
-      var result = await httpRequest.post(url, body: event.toJson());
+      var result = await httpRequest.post(baseUrl, body: event.toJson());
       if (result.statusCode == 200) {
         return Event.fromJson(result.data);
       } else {
