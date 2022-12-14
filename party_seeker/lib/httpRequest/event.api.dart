@@ -1,12 +1,13 @@
+import 'package:party_seeker/config/app.config.dart';
 import 'package:party_seeker/httpRequest/implementation/dio_impl.dart';
 import 'package:party_seeker/models/event.dart';
 
 class EventApi {
   final DioImpl httpRequest = DioImpl();
-  final String baseUrl = "http://localhost:8080/events";
+  late String baseUrl;
 
   EventApi() {
-    //TODO add headers after create login
+    baseUrl = "${AppConfig.apiUrl}/events";
     httpRequest.setHeader({"Authorization": "Bearer token"});
   }
 

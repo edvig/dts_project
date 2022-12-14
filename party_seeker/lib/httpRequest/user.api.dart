@@ -1,11 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:party_seeker/config/app.config.dart';
 import 'package:party_seeker/models/user.dart';
 
 import 'implementation/dio_impl.dart';
 
 class UserApi {
   final DioImpl httpRequest = DioImpl();
-  final String baseUrl = "http://localhost:8080";
+  late String baseUrl;
+
+  UserApi() {
+    baseUrl = AppConfig.apiUrl;
+  }
 
   Future<User> createUser(User user) async {
     try {
