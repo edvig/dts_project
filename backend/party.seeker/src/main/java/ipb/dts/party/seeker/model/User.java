@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "USERS")
@@ -32,7 +34,8 @@ public class User {
     @Column(name = "USERNAME", unique = true)
     private String username;
 
-    @Column(name = "birthDay")
+    @Column(name = "BIRTHDAY")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthDay;
 
     // This relationship is to list the events organized by the user.
@@ -46,4 +49,18 @@ public class User {
     @Column(name = "event_id")
     @JsonIgnore
     private List<Event> events;
+
+    public boolean removeOrganizedEventById(Integer eventId){
+        Integer sizeBefore = myEvents.size();
+        Event eventToRemoveOpt = myEvents.stream().filter(event -> event.getId() == eventId).findAny().orElse(null);
+        myEvents.remove(eventToRemoveOpt);
+        return sizeBefore>myEvents.size();
+    }
+
+    public boolean removeAttendedEventById(Integer eventId){
+        Integer sizeBefore = events.size();
+        Event eventToRemoveOpt = events.stream().filter(event -> event.getId() == eventId).findAny().orElse(null);
+        events.remove(eventToRemoveOpt);
+        return sizeBefore>events.size();
+    }
 }

@@ -27,7 +27,7 @@ public class Event {
     private String location;
 
     @Column(name = "PRICE")
-    private double price;
+    private Double price;
 
     @Column(name = "LIMIT_OF_ATTENDANTS")
     private Integer limitOfAttendants;
@@ -42,8 +42,8 @@ public class Event {
     @Column(name = "TIME_OF_START")
     private String timeOfStart;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ID")
     private User organizer;
 
     @Column(name = "organizerId")
