@@ -7,6 +7,8 @@ import '../../usecases/events_usecase.dart';
 class AddEventController {
   final AddEventView _view;
   final EventsUseCase _useCase = EventsUseCase();
+
+  // TODO: get organizer Id from shared preferences after implement login
   int get userId => 21;
   // int get userId => GlobalController().user!.id!;
 

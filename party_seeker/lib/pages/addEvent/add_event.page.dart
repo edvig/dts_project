@@ -95,7 +95,6 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
         minAgeToAttend: int.parse(minimunAgeController.text),
         price: priceStringToDouble(priceController.text),
         description: descriptionController.text,
-        // TODO: get organizer Id from shared preferences after implement login
         organizerId: controller.userId);
   }
 
