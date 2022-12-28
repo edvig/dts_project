@@ -12,16 +12,16 @@ class UserUsecase {
     _userApi = UserApi();
   }
 
-  // Future<Result<User>> createUser(User user) async {
-  //   try {
-  //     var userCreated = await _userApi.createUser(user);
-  //     var globalController = GlobalController();
-  //     globalController.user = userCreated;
-  //     return Result(data: userCreated, isSuccess: true);
-  //   } catch (ex) {
-  //     return (Result(data: null, isSuccess: false));
-  //   }
-  // }
+  Future<Result<User>> createUser(User user) async {
+    try {
+      var userCreated = await _userApi.createUser(user);
+      var globalController = GlobalController();
+      globalController.user = userCreated;
+      return Result(data: userCreated, isSuccess: true);
+    } catch (ex) {
+      return (Result(data: null, isSuccess: false));
+    }
+  }
 
   Future<Result<bool>> login(String username, String password) async {
     try {

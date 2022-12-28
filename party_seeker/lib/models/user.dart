@@ -5,6 +5,16 @@ class User {
   String? emailAddress;
   String? username;
   DateTime? birthday;
+  String? password;
+
+  User(
+      {this.id,
+      this.birthday,
+      this.emailAddress,
+      this.firstName,
+      this.lastName,
+      this.username,
+      this.password});
 
   User.fromJson(Map userJson) {
     id = userJson["id"];
