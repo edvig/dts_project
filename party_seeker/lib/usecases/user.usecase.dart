@@ -28,7 +28,7 @@ class UserUsecase {
       //TODO Change to get user and save on global storage
       var token = await _userApi.loginUser(username, password);
       var secureStorage = SecureStorage();
-      secureStorage.saveToken(token);
+      await secureStorage.saveToken(token);
       return Result(data: true, isSuccess: true);
     } catch (ex) {
       return (Result(data: null, isSuccess: false));
