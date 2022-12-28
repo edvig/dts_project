@@ -35,7 +35,7 @@ public class User {
     private String username;
 
     @Column(name = "BIRTHDAY")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-ddTHH:mm:ss")
     private Date birthDay;
 
     // This relationship is to list the events organized by the user.
