@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/login/login.controller.dart';
 import 'package:party_seeker/pages/login/login.view.dart';
@@ -40,10 +41,7 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
 
   @override
   void showErrorMessage(String message) {
-    var snackBar = SnackBar(
-      content: Text(message),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    CustomSnackBar.of(context).show(message);
   }
 
   @override
