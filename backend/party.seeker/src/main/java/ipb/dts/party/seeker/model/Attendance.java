@@ -11,3 +11,4 @@ public class Attendance {
 
     private boolean attend;
 }
+

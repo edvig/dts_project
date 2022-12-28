@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.controller;
 
+import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<User> PostUser(@RequestBody User newUser){
         return ResponseEntity.of(Optional.of(userService.CreateUser(newUser)));
-
     }
 
     @GetMapping("{userId}")
@@ -43,7 +43,19 @@ public class UserController {
     public ResponseEntity<Object> PutUser(@RequestBody User updatedUser) {
         User user = userService.UpdateUser(updatedUser);
         return ResponseEntity.of(Optional.of(user != null ? HttpStatus.NOT_FOUND : user));
-        //return ResponseEntity.of(Optional.of(userService.UpdateUser(updatedUser)));
     }
+
+    @GetMapping("/{userId}/myevents")
+    public ResponseEntity<Object> GetEventsOrganizedByUser(@PathVariable Integer userId) {
+        List<Event> events = userService.GetEventsOrganizedByUser(userId);
+        return ResponseEntity.of(Optional.of(events != null ? events : HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{userId}/participations")
+    public ResponseEntity<Object> GetEventUserParticipate(@PathVariable Integer userId) {
+        List<Event> participations = userService.GetParticipationsByUser(userId);
+        return ResponseEntity.of(Optional.of(participations != null ? participations : HttpStatus.NOT_FOUND));
+    }
+
 
 }

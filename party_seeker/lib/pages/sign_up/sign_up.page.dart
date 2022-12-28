@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:party_seeker/components/custom_datetime_picker.dart';
+import 'package:party_seeker/components/custom_snackbar.dart';
+import 'package:party_seeker/components/custom_text_field.dart';
+import 'package:party_seeker/config/date.extension.dart';
+import 'package:party_seeker/models/user.dart';
 import 'package:party_seeker/pages/sign_up/sign_up.controller.dart';
 
 import '../../config/routes.dart';
@@ -17,6 +22,15 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
   late SignUpController controller;
   bool loading = false;
 
+  final _formKey = GlobalKey<FormState>();
+
+  final emailController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final birthdayController = TextEditingController();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   void initState() {
     controller = SignUpController(this);
@@ -25,7 +39,8 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
 
   @override
   void navigateTo(String route) {
-    Navigator.pushNamed(context, route);
+    Navigator.pushNamedAndRemoveUntil(
+        context, route, (Route<dynamic> route) => false);
   }
 
   @override
@@ -33,6 +48,44 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
     setState(() {
       loading = value;
     });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    CustomSnackBar.of(context).show(message);
+  }
+
+  @override
+  bool isFormValid() => _formKey.currentState!.validate();
+
+  @override
+  User getUser() => User(
+      emailAddress: emailController.text,
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      birthday: DateTime.tryParse(birthdayController.text),
+      username: usernameController.text,
+      password: passwordController.text);
+
+  //TODO create component
+  dateTimerPickModal() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => CustonDatetimePicker(
+          modalMode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (dateTime) {
+            birthdayController.text = dateTime.toIso8601String();
+          },
+          value: DateTime.now()),
+    );
+  }
+
+  //TODO create mixin
+  String? validator(String? value) {
+    if (value == null || value == "") {
+      return "Please enter the information";
+    }
+    return null;
   }
 
   @override
@@ -59,33 +112,57 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
             ),
           ),
           const SizedBox(height: 30),
-          CupertinoTextField(
-            placeholder: 'Email',
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'First Name',
-            keyboardType: TextInputType.name,
-          ),
-          const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Last Name',
-            keyboardType: TextInputType.name,
-          ),
-          const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Birthday',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Password',
-            keyboardType: TextInputType.visiblePassword,
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                CustomTextField(
+                  hintText: 'Email',
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
+                ),
+                const SizedBox(height: 15),
+                CustomTextField(
+                  hintText: 'First Name',
+                  keyboardType: TextInputType.name,
+                  controller: firstNameController,
+                ),
+                const SizedBox(height: 15),
+                CustomTextField(
+                  hintText: 'Last Name',
+                  keyboardType: TextInputType.name,
+                  controller: lastNameController,
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: CustomTextField(
+                    hintText: "Birthday",
+                    controller: birthdayController,
+                    readOnly: true,
+                    onTap: dateTimerPickModal,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                CustomTextField(
+                  hintText: 'Username',
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: usernameController,
+                ),
+                const SizedBox(height: 15),
+                CustomTextField(
+                  hintText: 'Password',
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: passwordController,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 30),
           InkWell(
-            onTap: () => controller.login("email", "password"),
+            onTap: () => controller.signup(),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: Container(

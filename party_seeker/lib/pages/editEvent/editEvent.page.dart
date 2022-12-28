@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../components/custom_text_field.dart';
+
 class EditEventPage extends StatelessWidget {
   const EditEventPage({Key? key}) : super(key: key);
 
@@ -32,29 +34,30 @@ class EditEventPage extends StatelessWidget {
           right: 20,
         ),
         children: [
-          CupertinoTextField(
-            placeholder: 'Title',
-          ),
-          const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Date',
+          const CustomTextField(
+            hintText: 'Title',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Time',
+          const CustomTextField(
+            hintText: 'Date',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Price',
+          const CustomTextField(
+            hintText: 'Time',
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 15),
-          CupertinoTextField(
-            placeholder: 'Description',
+          const CustomTextField(
+            hintText: 'Price',
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 15),
+          const CustomTextField(
+            hintText: 'Description',
             maxLines: 10,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 30),
           InkWell(

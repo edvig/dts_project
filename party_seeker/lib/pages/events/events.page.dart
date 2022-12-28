@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:party_seeker/pages/events/EventCard.dart';
+import 'package:party_seeker/models/event.dart';
+import 'package:party_seeker/pages/events/event_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../config/routes.dart';
 import 'events.controller.dart';
 import 'events.view.dart';
@@ -16,9 +16,20 @@ class EventsPage extends StatefulWidget {
 
 class _EventsPageState extends State<EventsPage> implements EventsView {
   late EventsController controller;
-  bool loading = false;
-  RefreshController _refreshController =
+  bool isLoading = false;
+  String errorMessage = "";
+  bool hasError = false;
+  List<Event> events = [];
+
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    controller = EventsController(this);
+    controller.loadEvents();
+    super.initState();
+  }
 
   @override
   void navigateTo(String route) {
@@ -28,20 +39,33 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
   @override
   void setLoading(bool value) {
     setState(() {
-      loading = value;
+      isLoading = value;
+    });
+  }
+
+  @override
+  void setEvents(List<Event> value) {
+    setState(() {
+      hasError = false;
+      events = value;
+    });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    setState(() {
+      hasError = true;
+      errorMessage = message;
     });
   }
 
   void _onRefresh() async {
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
+    controller.loadEvents();
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
-    await Future.delayed(Duration(milliseconds: 1000));
-
+    controller.loadEvents();
     _refreshController.loadComplete();
   }
 
@@ -86,39 +110,66 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
         ],
       ),
       body: SmartRefresher(
-        header: CustomHeader(
-          refreshStyle: RefreshStyle.Behind,
-          builder: (c, m) {
-            return Container(
-              child: CupertinoActivityIndicator(
-                radius: 15,
-                color: Colors.white,
-              ),
-              alignment: Alignment.center,
-            );
-          },
-        ),
-        physics: const BouncingScrollPhysics(),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        child: ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.only(
-            top: 20,
-            bottom: 30,
-            left: 20,
-            right: 20,
+          header: CustomHeader(
+            refreshStyle: RefreshStyle.Behind,
+            builder: (c, m) {
+              return Container(
+                alignment: Alignment.center,
+                child: const CupertinoActivityIndicator(
+                  radius: 15,
+                  color: Colors.white,
+                ),
+              );
+            },
           ),
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(
-              height: 15,
-            );
-          },
-          itemCount: 10,
-          itemBuilder: (_, i) => EventCard(),
-        ),
-      ),
+          physics: const BouncingScrollPhysics(),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: page()),
     );
   }
+
+  Widget page() {
+    if (hasError) {
+      return error();
+    }
+    return isLoading ? loading() : loadList();
+  }
+
+  Widget loading() => const Center(
+        child: CupertinoActivityIndicator(
+          color: Colors.white,
+        ),
+      );
+
+  Widget error() => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            errorMessage,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline2,
+          ),
+        ),
+      );
+
+  Widget loadList() => ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(
+          top: 20,
+          bottom: 30,
+          left: 20,
+          right: 20,
+        ),
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(
+            height: 15,
+          );
+        },
+        itemCount: events.length,
+        itemBuilder: (_, i) => EventCard(
+          event: events[i],
+        ),
+      );
 }

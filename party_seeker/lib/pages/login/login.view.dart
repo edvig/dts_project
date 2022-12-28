@@ -1,5 +1,3 @@
-abstract class LoginView {
-  void increment(int newCounter);
-  void navigateTo(String route);
-  void setLoading(bool value);
-}
+import 'package:party_seeker/models/base_view.dart';
+
+abstract class LoginView implements BaseView {}

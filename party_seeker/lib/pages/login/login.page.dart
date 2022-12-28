@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:party_seeker/components/CustomButton.dart';
+import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/login/login.controller.dart';
 import 'package:party_seeker/pages/login/login.view.dart';
@@ -18,17 +18,13 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
   int counter = 0;
   bool loading = false;
 
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   void initState() {
     controller = LoginController(this);
     super.initState();
-  }
-
-  @override
-  void increment(int newCounter) {
-    setState(() {
-      counter = newCounter;
-    });
   }
 
   @override
@@ -41,6 +37,18 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
     setState(() {
       loading = value;
     });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    CustomSnackBar.of(context).show(message);
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,17 +76,20 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           ),
           const SizedBox(height: 30),
           CupertinoTextField(
-            placeholder: 'Email',
+            placeholder: 'Username',
             keyboardType: TextInputType.emailAddress,
+            controller: usernameController,
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
             placeholder: 'Password',
             keyboardType: TextInputType.visiblePassword,
+            controller: passwordController,
           ),
           const SizedBox(height: 30),
           InkWell(
-            onTap: () => controller.login("email", "password"),
+            onTap: () => controller.login(
+                usernameController.text, passwordController.text),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             child: Container(
@@ -112,7 +123,7 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           Center(
             child: InkWell(
                 onTap: () {
-                  navigateTo(Routes.sign_up);
+                  navigateTo(Routes.signUp);
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
