@@ -1,19 +1,31 @@
-import 'package:party_seeker/models/event.dart';
+import 'package:party_seeker/config/global.controller.dart';
+import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
+import '../../usecases/events_usecase.dart';
+
 class AddEventController {
-  AddEventView _view;
+  final AddEventView _view;
+  final EventsUseCase _useCase = EventsUseCase();
+
+  // TODO: get organizer Id from shared preferences after implement login
+  int get userId => 21;
+  // int get userId => GlobalController().user!.id!;
 
   AddEventController(this._view);
 
-  Future<void> createNewEvent(String title, DateTime dateTime, double price,
-      String description, String local, int minAge) async {
-    var event = Event(
-        title: title,
-        local: local,
-        date: dateTime,
-        minAge: minAge,
-        cost: price,
-        description: description);
+  Future<void> createNewEvent() async {
+    _view.setLoading(true);
+    if (_view.isFormValid()) {
+      var event = _view.getNewEvent();
+      var result = await _useCase.createEvent(event);
+      if (result.isSuccess) {
+        _view.navigateTo(Routes.events);
+      } else {
+        _view.showErrorMessage(
+            "There is a problem to create your event. Try again");
+      }
+    }
+    _view.setLoading(false);
   }
 }

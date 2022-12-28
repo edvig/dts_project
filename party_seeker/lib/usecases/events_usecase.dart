@@ -26,4 +26,13 @@ class EventsUseCase {
       return Result(data: null, isSuccess: false);
     }
   }
+
+  Future<Result<Event>> createEvent(Event event) async {
+    try {
+      var eventCreated = await _eventApi.createEvent(event);
+      return Result(data: eventCreated, isSuccess: true);
+    } catch (ex) {
+      return Result(data: null, isSuccess: false);
+    }
+  }
 }

@@ -19,6 +19,10 @@ dependencies:
   pull_to_refresh: ^2.0.0
   dio: ^4.0.6
   pretty_dio_logger: ^1.2.0-beta-1
+  textfield_datepicker: ^0.1.0
+  intl: ^0.17.0
+  currency_text_input_formatter: ^2.1.8
+  flutter_secure_storage: ^7.0.1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.10.0"
@@ -42,7 +46,7 @@ flutter:
   - lib/assets/
   - lib/assets/logo/
   - lib/assets/icons/
-  - lib/assets/images/
+  # - lib/assets/images/
 
 flutter_icons:
   android: "launcher_icon"

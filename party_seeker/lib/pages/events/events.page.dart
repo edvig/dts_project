@@ -137,7 +137,6 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
     return isLoading ? loading() : loadList();
   }
 
-  @override
   Widget loading() => const Center(
         child: CupertinoActivityIndicator(
           color: Colors.white,
@@ -145,9 +144,13 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
       );
 
   Widget error() => Center(
-        child: Text(
-          errorMessage,
-          style: Theme.of(context).textTheme.headline1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            errorMessage,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline2,
+          ),
         ),
       );
 

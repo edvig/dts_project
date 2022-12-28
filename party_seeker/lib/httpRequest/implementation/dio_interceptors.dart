@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:party_seeker/shared_prefs/secure_storage.dart';
 
 class DioInterceptors extends InterceptorsWrapper {
   //TODO: Complete methods
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    //Token
+    var secureStorage = SecureStorage();
+    var token = await secureStorage.getToken();
+    options.headers = {"Authorization": "Bearer $token"};
     //Log
     return handler.next(options);
   }

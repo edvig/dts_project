@@ -4,6 +4,12 @@ extension MyDateTimeExtension on DateTime {
   }
 
   String toFormatedHour() {
-    return "$hour:$minute";
+    return "${hour}h:${minute}m";
+  }
+
+  String toSimpleDateAndHour() {
+    var date = toSimpleDateString();
+    var hour = toFormatedHour();
+    return "$date $hour";
   }
 }

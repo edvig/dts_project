@@ -1,13 +1,23 @@
+import 'package:party_seeker/config/app.config.dart';
 import 'package:party_seeker/httpRequest/implementation/dio_impl.dart';
 import 'package:party_seeker/models/event.dart';
+import 'package:party_seeker/shared_prefs/secure_storage.dart';
 
 class EventApi {
-  final DioImpl http_request = DioImpl();
-  final String baseUrl = "https://localhost:8080/events";
+  final DioImpl httpRequest = DioImpl();
+  late String baseUrl;
+
+  EventApi() {
+    baseUrl = "${AppConfig.apiUrl}/events";
+    var secureStorage = SecureStorage();
+    secureStorage.getToken().then((token) {
+      httpRequest.setHeader({"Authorization": "Bearer $token"});
+    });
+  }
 
   Future<List<Event>> getAllEvents() async {
     try {
-      var result = await http_request.get(baseUrl);
+      var result = await httpRequest.get(baseUrl);
       List<Event> events = [];
       if (result.statusCode == 200) {
         var eventsJson = result.data;
@@ -26,7 +36,7 @@ class EventApi {
   Future<Event> getEventById(int id) async {
     try {
       var url = "$baseUrl/$id";
-      var result = await http_request.get(url);
+      var result = await httpRequest.get(url);
       if (result.statusCode == 200) {
         return Event.fromJson(result.data);
       } else {
@@ -34,6 +44,20 @@ class EventApi {
       }
     } catch (err) {
       throw "Error to load event";
+    }
+  }
+
+  Future<Event> createEvent(Event event) async {
+    try {
+      //TODO problems with date formant - toIsoString is returning error 400
+      var result = await httpRequest.post(baseUrl, body: event.toJson());
+      if (result.statusCode == 200) {
+        return Event.fromJson(result.data);
+      } else {
+        throw "Error create this event";
+      }
+    } catch (ex) {
+      throw "Error to create event";
     }
   }
 }
