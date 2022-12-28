@@ -96,7 +96,7 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
         price: priceStringToDouble(priceController.text),
         description: descriptionController.text,
         // TODO: get organizer Id from shared preferences after implement login
-        organizerId: 1);
+        organizerId: controller.userId);
   }
 
   String? validator(String? value) {

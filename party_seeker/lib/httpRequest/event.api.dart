@@ -49,6 +49,7 @@ class EventApi {
 
   Future<Event> createEvent(Event event) async {
     try {
+      //TODO problems with date formant - toIsoString is returning error 400
       var result = await httpRequest.post(baseUrl, body: event.toJson());
       if (result.statusCode == 200) {
         return Event.fromJson(result.data);

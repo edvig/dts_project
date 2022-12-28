@@ -1,3 +1,4 @@
+import 'package:party_seeker/config/global.controller.dart';
 import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
@@ -6,6 +7,8 @@ import '../../usecases/events_usecase.dart';
 class AddEventController {
   final AddEventView _view;
   final EventsUseCase _useCase = EventsUseCase();
+  int get userId => 21;
+  // int get userId => GlobalController().user!.id!;
 
   AddEventController(this._view);
 
