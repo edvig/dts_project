@@ -21,61 +21,31 @@ public class UserController {
     UserService userService;
 
     @PostMapping()
-    public ResponseEntity<UserView> PostUser(@RequestBody User newUser){
-        User created = Optional.of(userService.CreateUser(newUser)).get();
-        UserView user = new UserView(
-                created.getId(),
-                created.getFirstName(),
-                created.getLastName(),
-                created.getEmailAddress(),
-                created.getUsername(),
-                created.getBirthDay()
-        );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<Object> PostUser(@RequestBody User newUser){
+        UserView created = userService.CreateUser(newUser);
+        return ResponseEntity.of(Optional.of(created != null? created : HttpStatus.CONFLICT));
     }
 
     @GetMapping("{userId}")
-    public ResponseEntity<UserView> GetUser(@PathVariable Integer userId) {
-        User found = Optional.of(userService.GetUserById(userId)).get();
-        UserView user = new UserView(
-                found.getId(),
-                found.getFirstName(),
-                found.getLastName(),
-                found.getEmailAddress(),
-                found.getUsername(),
-                found.getBirthDay()
-        );
-
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<Object> GetUser(@PathVariable Integer userId) {
+        UserView user = userService.GetUserViewById(userId);
+        return ResponseEntity.of(Optional.of(user != null ? user : HttpStatus.NOT_FOUND));
     }
 
     @GetMapping()
     public ResponseEntity<List<UserView>> GetUsers() {
-        List<UserView> users = userService.GetUsers().stream().map(user -> new UserView(user.getId(), user.getFirstName(), user.getLastName(), user.getEmailAddress(), user.getUsername(), user.getBirthDay())).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.GetUsers());
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity DeleteUser(@PathVariable Integer userId) {
-        return ResponseEntity.of(Optional.of(userService.DeleteUser(userId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+        return ResponseEntity.of(Optional.of(userService.RemoveUserById(userId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
     @PutMapping()
     public ResponseEntity<Object> PutUser(@RequestBody User updatedUser) {
-        Optional<User> found = Optional.of(userService.UpdateUser(updatedUser));
-        if(found.isPresent()){
-            UserView user = new UserView(
-                    found.get().getId(),
-                    found.get().getFirstName(),
-                    found.get().getLastName(),
-                    found.get().getEmailAddress(),
-                    found.get().getUsername(),
-                    found.get().getBirthDay()
-            );
-            return ResponseEntity.status(HttpStatus.OK).body(user);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        UserView updatedUserView = userService.UpdateUser(updatedUser);
+        return ResponseEntity.of(Optional.of(updatedUserView != null ? updatedUserView : HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{userId}/myevents")

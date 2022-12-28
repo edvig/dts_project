@@ -3,6 +3,7 @@ package ipb.dts.party.seeker.service;
 import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.repository.EventRepository;
+import ipb.dts.party.seeker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ import java.util.stream.Collectors;
 public class EventService {
     @Autowired
     EventRepository eventRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public Event CreateEvent(Event newEvent, User organizer) {
         if (organizer == null) return null;
@@ -42,13 +46,16 @@ public class EventService {
         return eventRepository.save(newEvent) ;
     }
 
+    public User SaveUser(User user) {
+        return userRepository.save(user) ;
+    }
+
     public List<Event> GetAllEvents() {
         return eventRepository.findAll();
     }
 
     public Event GetEventById(Integer eventId) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
-        System.out.println("Db:"+optionalEvent.get().getParticipants().stream().count());
         return optionalEvent.isPresent() ? optionalEvent.get() : null;
     }
 
@@ -76,7 +83,7 @@ public class EventService {
         return GetEventById(eventId) == null;
     }
 
-    public boolean RemoveEventById(Integer eventId) {
+    public boolean RemoveEventById2(Integer eventId) {
         Event event = GetEventById(eventId);
         if (event == null) return false;
         event.getParticipants().forEach(participant->{
@@ -93,17 +100,38 @@ public class EventService {
         return DeleteEventById(event.getId());
     }
 
+    public boolean RemoveEventById(Integer eventId) {
+        Event event = GetEventById(eventId);
+        if (event == null) return false;
+        User organizer = event.getOrganizer();
+        organizer.removeOrganizedEventById(eventId);
+        event.setOrganizer(null);
+        event.setOrganizerId(null);
+
+        List<User> participants = event.getParticipants();
+        participants.forEach(participant -> {
+            participant.removeAttendedEventById(eventId);
+            SaveUser(participant);
+        });
+        participants.clear();
+
+        SaveUser(organizer);
+        SaveEvent(event);
+
+        return DeleteEventById(event.getId());
+    }
+
     public Event UpdateEvent(Event updatedEvent) {
         Optional<Event> optionalEvent = eventRepository.findById(updatedEvent.getId());
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
-            event.setDate(updatedEvent.getDate());
-            event.setPrice(updatedEvent.getPrice());
-            event.setLocation(updatedEvent.getLocation());
-            event.setTitle(updatedEvent.getTitle());
-            event.setLimitOfAttendants(updatedEvent.getLimitOfAttendants());
-            event.setMinAgeToAttend(updatedEvent.getMinAgeToAttend());
-            event.setTimeOfStart(updatedEvent.getTimeOfStart());
+            event.setDate(updatedEvent.getDate() != null ? updatedEvent.getDate() : event.getDate());
+            event.setPrice(updatedEvent.getPrice() != null ? updatedEvent.getPrice() : event.getPrice());
+            event.setLocation(updatedEvent.getLocation() != null ? updatedEvent.getLocation() : event.getLocation());
+            event.setTitle(updatedEvent.getTitle() != null ? updatedEvent.getTitle() : event.getTitle());
+            event.setLimitOfAttendants(updatedEvent.getLimitOfAttendants() != null ? updatedEvent.getLimitOfAttendants() : event.getLimitOfAttendants());
+            event.setMinAgeToAttend(updatedEvent.getMinAgeToAttend() != null ? updatedEvent.getMinAgeToAttend() : event.getMinAgeToAttend());
+            event.setTimeOfStart(updatedEvent.getTimeOfStart() != null ? updatedEvent.getTimeOfStart(): event.getTimeOfStart());
             return eventRepository.save(event);
          }
         return null;

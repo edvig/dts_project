@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -23,13 +24,19 @@ public class UserService {
     @Autowired
     EventService eventService;
 
-    public List<User> GetUsers() {
-        return userRepository.findAll();
+    public List<UserView> GetUsers() {
+        return userRepository.findAll().stream().map(user -> UserViewFromUser(user)).collect(Collectors.toList());
     }
 
     public User GetUserById(Integer userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         return optionalUser.orElse(null);
+    }
+
+    public UserView GetUserViewById(Integer userId) {
+        User user = GetUserById(userId);
+        if (user == null) return null;
+        return UserViewFromUser(user);
     }
 
     public User GetUserByUsername(String username){
@@ -41,46 +48,40 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User CreateUser(User user) {
+    public UserView CreateUser(User user) {
         user.setEvents(new ArrayList<Event>());
         user.setMyEvents(new ArrayList<Event>());
         user.setPassword(encode(user.getPassword()));
-        return SaveUser(user);
+        return UserViewFromUser(SaveUser(user));
     }
 
-    public boolean DeleteUser(Integer userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isEmpty())
-            return false;
-        User user = optionalUser.get();
+    private UserView UserViewFromUser(User user) {
+        return new UserView(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmailAddress(),
+                user.getUsername(),
+                user.getBirthDay()
+        );
+    }
 
-        user.getEvents().forEach(event -> {
-            event.getParticipants().remove(user);
-            eventService.SaveEvent(event);
-        });
-
-        user.getMyEvents().forEach(myEvent->{
-            eventService.RemoveEventById(myEvent.getId());
-        });
-
-        user.setEvents(null);
-        user.setMyEvents(null);
+    public boolean DeleteUserById(Integer userId) {
         userRepository.deleteById(userId);
-
-        return true;
+        return GetUserById(userId) == null;
     }
 
-    public User UpdateUser(User updatedUser) {
+    public UserView UpdateUser(User updatedUser) {
         Optional<User> optionalUser = userRepository.findById(updatedUser.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setBirthDay(updatedUser.getBirthDay());
-            user.setPassword(encode(updatedUser.getPassword()));
-            user.setUsername(updatedUser.getUsername());
-            user.setFirstName(updatedUser.getFirstName());
-            user.setLastName(updatedUser.getLastName());
-            user.setEmailAddress(updatedUser.getEmailAddress());
-            return userRepository.save(user);
+            user.setBirthDay(updatedUser.getBirthDay() != null ? updatedUser.getBirthDay() : user.getBirthDay());
+            user.setPassword(updatedUser.getPassword() != null ? encode(updatedUser.getPassword()) : user.getPassword());
+            user.setUsername(updatedUser.getUsername() != null ? updatedUser.getUsername() : user.getUsername());
+            user.setFirstName(updatedUser.getFirstName() != null ? updatedUser.getFirstName() : user.getFirstName());
+            user.setLastName(updatedUser.getLastName() != null ? updatedUser.getLastName() : user.getLastName());
+            user.setEmailAddress(updatedUser.getEmailAddress() != null ? updatedUser.getEmailAddress() : user.getEmailAddress());
+            return UserViewFromUser(userRepository.save(user));
         }
         return null;
     }
@@ -105,6 +106,18 @@ public class UserService {
         Event createdEvent = eventService.CreateEvent(newEvent, organizer);
         SaveUser(organizer);
         return createdEvent;
+    }
+
+    public boolean RemoveUserById(Integer userId) {
+        User user = GetUserById(userId);
+        if(user==null) return false;
+        List<Event> eventsOrganizedByUser = user.getMyEvents();
+        int numOfEventsToRemove = eventsOrganizedByUser.size();
+        for(int i = 0; i < numOfEventsToRemove; i++) {
+            eventService.RemoveEventById(eventsOrganizedByUser.get(0).getId());
+        }
+
+        return DeleteUserById(userId);
     }
 
     private String encode(String password){
