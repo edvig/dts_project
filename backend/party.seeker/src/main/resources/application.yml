@@ -1,0 +1,7 @@
+jwt:
+  validityInMilliseconds: 18000000
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

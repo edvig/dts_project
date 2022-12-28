@@ -3,6 +3,7 @@ package ipb.dts.party.seeker.controller;
 import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.service.UserService;
+import ipb.dts.party.seeker.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +21,31 @@ public class UserController {
     UserService userService;
 
     @PostMapping()
-    public ResponseEntity<User> PostUser(@RequestBody User newUser){
-        return ResponseEntity.of(Optional.of(userService.CreateUser(newUser)));
+    public ResponseEntity<Object> PostUser(@RequestBody User newUser){
+        UserView created = userService.CreateUser(newUser);
+        return ResponseEntity.of(Optional.of(created != null? created : HttpStatus.CONFLICT));
     }
 
     @GetMapping("{userId}")
-    public ResponseEntity<User> GetUser(@PathVariable Integer userId) {
-        return ResponseEntity.of(Optional.of(userService.GetUserById(userId)));
+    public ResponseEntity<Object> GetUser(@PathVariable Integer userId) {
+        UserView user = userService.GetUserViewById(userId);
+        return ResponseEntity.of(Optional.of(user != null ? user : HttpStatus.NOT_FOUND));
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> GetUsers() {
-        return ResponseEntity.of(Optional.of(userService.GetUsers()));
+    public ResponseEntity<List<UserView>> GetUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.GetUsers());
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity DeleteUser(@PathVariable Integer userId) {
-        return ResponseEntity.of(Optional.of(userService.DeleteUser(userId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+        return ResponseEntity.of(Optional.of(userService.RemoveUserById(userId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
     @PutMapping()
     public ResponseEntity<Object> PutUser(@RequestBody User updatedUser) {
-        User user = userService.UpdateUser(updatedUser);
-        return ResponseEntity.of(Optional.of(user != null ? HttpStatus.NOT_FOUND : user));
+        UserView updatedUserView = userService.UpdateUser(updatedUser);
+        return ResponseEntity.of(Optional.of(updatedUserView != null ? updatedUserView : HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{userId}/myevents")

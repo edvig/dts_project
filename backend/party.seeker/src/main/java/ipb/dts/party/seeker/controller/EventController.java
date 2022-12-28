@@ -43,8 +43,9 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<Event> GetEvent(@PathVariable Integer eventId) {
-        return ResponseEntity.of(Optional.of(eventService.GetEventById(eventId)));
+    public ResponseEntity<Object> GetEvent(@PathVariable Integer eventId) {
+        Event event = eventService.GetEventById(eventId);
+        return ResponseEntity.of(Optional.of(event != null ? event : HttpStatus.NOT_FOUND));
     }
 
     @PutMapping()
@@ -54,7 +55,7 @@ public class EventController {
     }
 
     @DeleteMapping("{eventId}")
-    public ResponseEntity DeleteEvent(@PathVariable Integer eventId) {
+    public ResponseEntity<HttpStatus> DeleteEvent(@PathVariable Integer eventId) {
         return ResponseEntity.of(Optional.of(eventService.RemoveEventById(eventId) ? HttpStatus.OK : HttpStatus.NOT_FOUND));
     }
 
@@ -65,7 +66,6 @@ public class EventController {
     }
 
     @GetMapping("{eventId}/participants")
-    @ResponseStatus(value=HttpStatus.NOT_FOUND, reason = "No such event.")  // 404
     public ResponseEntity<Object> GetParticipantsOfEnEvent(@PathVariable Integer eventId) {
         List<User> participants = eventService.GetParticipants(eventId);
         return ResponseEntity.of(Optional.of(participants != null? participants : HttpStatus.NOT_FOUND));
