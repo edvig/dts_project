@@ -72,6 +72,7 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
     showCupertinoModalPopup(
       context: context,
       builder: (_) => CustonDatetimePicker(
+          modalMode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (dateTime) {
             birthdayController.text = dateTime.toIso8601String();
           },

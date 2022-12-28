@@ -109,6 +109,7 @@ class _AddEventPageState extends State<AddEventPage> implements AddEventView {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CustonDatetimePicker(
+              modalMode: CupertinoDatePickerMode.dateAndTime,
               value: dateTime ?? DateTime.now(),
               onDateTimeChanged: (DateTime value) {
                 setState(() {

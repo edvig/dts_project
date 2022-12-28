@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 class CustonDatetimePicker extends StatefulWidget {
   final void Function(DateTime) onDateTimeChanged;
   final DateTime value;
+  final CupertinoDatePickerMode modalMode;
 
   const CustonDatetimePicker(
-      {required this.onDateTimeChanged, required this.value, super.key});
+      {required this.onDateTimeChanged,
+      required this.value,
+      required this.modalMode,
+      super.key});
 
   @override
   State<CustonDatetimePicker> createState() => _CustonDatetimePickerState();
@@ -26,6 +30,7 @@ class _CustonDatetimePickerState extends State<CustonDatetimePicker> {
           ),
           child: SafeArea(
               child: CupertinoDatePicker(
+                  mode: widget.modalMode,
                   initialDateTime: widget.value,
                   use24hFormat: true,
                   onDateTimeChanged: widget.onDateTimeChanged)),
