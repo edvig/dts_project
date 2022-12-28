@@ -22,10 +22,17 @@ class User {
     lastName = userJson["lastName"];
     emailAddress = userJson["emailAddress"];
     username = userJson["username"];
-    birthday = DateTime.tryParse(userJson["birthday"]);
+    birthday = DateTime.tryParse(userJson["birthday"] ?? "");
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    return {
+      "firstName": firstName,
+      "lastName": lastName,
+      "emailAddress": emailAddress,
+      "password": password,
+      "username": username,
+      "birthday": birthday?.toIso8601String()
+    };
   }
 }

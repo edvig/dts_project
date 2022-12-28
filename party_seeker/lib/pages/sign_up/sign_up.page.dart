@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:party_seeker/components/custom_datetime_picker.dart';
 import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/components/custom_text_field.dart';
+import 'package:party_seeker/config/date.extension.dart';
 import 'package:party_seeker/models/user.dart';
 import 'package:party_seeker/pages/sign_up/sign_up.controller.dart';
 
@@ -38,7 +39,8 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
 
   @override
   void navigateTo(String route) {
-    Navigator.pushNamed(context, route);
+    Navigator.pushNamedAndRemoveUntil(
+        context, route, (Route<dynamic> route) => false);
   }
 
   @override
@@ -70,7 +72,10 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
     showCupertinoModalPopup(
       context: context,
       builder: (_) => CustonDatetimePicker(
-          onDateTimeChanged: (dateTime) {}, value: DateTime.now()),
+          onDateTimeChanged: (dateTime) {
+            birthdayController.text = dateTime.toIso8601String();
+          },
+          value: DateTime.now()),
     );
   }
 

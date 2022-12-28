@@ -1,6 +1,7 @@
 import 'package:party_seeker/config/app.config.dart';
 import 'package:party_seeker/httpRequest/implementation/dio_impl.dart';
 import 'package:party_seeker/models/event.dart';
+import 'package:party_seeker/shared_prefs/secure_storage.dart';
 
 class EventApi {
   final DioImpl httpRequest = DioImpl();
@@ -8,7 +9,10 @@ class EventApi {
 
   EventApi() {
     baseUrl = "${AppConfig.apiUrl}/events";
-    httpRequest.setHeader({"Authorization": "Bearer token"});
+    var secureStorage = SecureStorage();
+    secureStorage.getToken().then((token) {
+      httpRequest.setHeader({"Authorization": "Bearer $token"});
+    });
   }
 
   Future<List<Event>> getAllEvents() async {

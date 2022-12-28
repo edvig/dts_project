@@ -14,8 +14,9 @@ class UserApi {
 
   Future<User> createUser(User user) async {
     try {
-      var response = await httpRequest.post(baseUrl, body: user.toJson());
-      if (response.statusCode == 200) {
+      var url = "$baseUrl/users";
+      var response = await httpRequest.post(url, body: user.toJson());
+      if (response.statusCode == 201) {
         return User.fromJson(response.data);
       } else {
         throw "Error to create user";

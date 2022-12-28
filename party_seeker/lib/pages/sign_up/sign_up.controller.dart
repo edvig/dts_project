@@ -6,7 +6,7 @@ import 'package:party_seeker/usecases/user.usecase.dart';
 class SignUpController {
   final SignUpView _view;
   GlobalController globalController = GlobalController();
-  UserUsecase _userUsecase = UserUsecase();
+  final UserUsecase _userUsecase = UserUsecase();
 
   SignUpController(this._view);
 
@@ -18,8 +18,7 @@ class SignUpController {
       if (result.hasError) {
         _view.showErrorMessage("Error to create user. Try again");
       } else {
-        _userUsecase.login(user.username ?? "", user.password ?? "");
-        _view.navigateTo(Routes.events);
+        _view.navigateTo(Routes.login);
       }
     }
     _view.setLoading(false);
