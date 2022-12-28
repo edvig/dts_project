@@ -1,6 +1,7 @@
 package ipb.dts.party.seeker.service;
 
 import ipb.dts.party.seeker.model.User;
+import ipb.dts.party.seeker.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
@@ -33,5 +35,4 @@ public class CustomUserDetailService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
-
 }

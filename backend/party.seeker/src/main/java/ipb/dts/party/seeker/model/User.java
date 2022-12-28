@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -33,6 +34,7 @@ public class User {
     private String username;
 
     @Column(name = "birthDay")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthDay;
 
     // This relationship is to list the events organized by the user.
