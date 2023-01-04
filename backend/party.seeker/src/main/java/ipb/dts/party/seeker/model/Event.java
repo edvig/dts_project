@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +36,9 @@ public class Event {
     @Column(name = "MIN_AGE_TO_ATTEND")
     private Integer minAgeToAttend;
 
-    @Column(name = "DATE")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDate date;
-
-    @Column(name = "TIME_OF_START")
-    private String timeOfStart;
+    @Column(name = "DATETIME")
+    @JsonFormat(pattern="yyyy-MM-ddTHH:mm:ss")
+    private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")

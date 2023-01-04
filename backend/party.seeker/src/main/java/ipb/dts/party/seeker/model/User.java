@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class User {
 
     @Column(name = "BIRTHDAY")
     @JsonFormat(pattern="yyyy-MM-ddTHH:mm:ss")
-    private Date birthDay;
+    private LocalDateTime birthDay;
 
     // This relationship is to list the events organized by the user.
     // One event can have one organizer, one user can organize multiple events.
