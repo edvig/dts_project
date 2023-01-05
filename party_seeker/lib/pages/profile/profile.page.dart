@@ -15,8 +15,12 @@ class _ProfilePageState extends State<ProfilePage> {
   late ProfileController controller;
   bool loading = false;
 
-  void navigateTo(String route) {
-    Navigator.pushNamed(context, route);
+  void navigateTo(String route, {bool removeUntil = false}) {
+    if (removeUntil) {
+      Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+    } else {
+      Navigator.pushNamed(context, route);
+    }
   }
 
   void setLoading(bool value) {
@@ -64,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(width: 10),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => controller.logout(),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Container(
