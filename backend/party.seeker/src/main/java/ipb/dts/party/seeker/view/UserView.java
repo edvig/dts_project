@@ -1,5 +1,6 @@
 package ipb.dts.party.seeker.view;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public record UserView(
@@ -8,5 +9,5 @@ public record UserView(
         String lastName,
         String emailAddress,
         String username,
-        Date birthday
+        LocalDateTime birthday
 ) { }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class EventService {
     public List<Event> GetUpcomingEvents() {
         return eventRepository.findAll()
                               .stream()
-                              .filter(event -> event.getDate().isAfter(LocalDate.now().minusDays(1))).collect(Collectors.toList());
+                              .filter(event -> event.getDateTime().isAfter(LocalDateTime.now().minusDays(1))).collect(Collectors.toList());
     }
 
     public boolean DeleteEventById2(Integer eventId) {
@@ -125,13 +126,12 @@ public class EventService {
         Optional<Event> optionalEvent = eventRepository.findById(updatedEvent.getId());
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
-            event.setDate(updatedEvent.getDate() != null ? updatedEvent.getDate() : event.getDate());
             event.setPrice(updatedEvent.getPrice() != null ? updatedEvent.getPrice() : event.getPrice());
             event.setLocation(updatedEvent.getLocation() != null ? updatedEvent.getLocation() : event.getLocation());
             event.setTitle(updatedEvent.getTitle() != null ? updatedEvent.getTitle() : event.getTitle());
             event.setLimitOfAttendants(updatedEvent.getLimitOfAttendants() != null ? updatedEvent.getLimitOfAttendants() : event.getLimitOfAttendants());
             event.setMinAgeToAttend(updatedEvent.getMinAgeToAttend() != null ? updatedEvent.getMinAgeToAttend() : event.getMinAgeToAttend());
-            event.setTimeOfStart(updatedEvent.getTimeOfStart() != null ? updatedEvent.getTimeOfStart(): event.getTimeOfStart());
+            event.setDateTime(updatedEvent.getDateTime() != null ? updatedEvent.getDateTime() : event.getDateTime());
             return eventRepository.save(event);
          }
         return null;
