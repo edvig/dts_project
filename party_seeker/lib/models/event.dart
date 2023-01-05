@@ -1,3 +1,5 @@
+import 'package:party_seeker/config/date.extension.dart';
+
 class Event {
   int? id;
   String title;
@@ -7,7 +9,6 @@ class Event {
   int minAgeToAttend;
   double price;
   int? limitOfAttendants;
-  double? timeOfStart;
   int organizerId;
 
   String get formatedCost => "$price";
@@ -20,7 +21,6 @@ class Event {
       required this.price,
       required this.description,
       this.limitOfAttendants,
-      this.timeOfStart,
       this.id,
       required this.organizerId});
 
@@ -33,19 +33,17 @@ class Event {
         price = json["price"],
         organizerId = json["organizerId"],
         id = json["id"],
-        limitOfAttendants = json["limitOfAttendants"],
-        timeOfStart = json["timeOfStart"];
+        limitOfAttendants = json["limitOfAttendants"];
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "location": location,
         "description": description,
-        "date": date.toIso8601String(),
         "minAgeToAttend": minAgeToAttend,
         "price": price,
         "limitOfAttendants": limitOfAttendants,
-        "timeOfStart": timeOfStart,
+        "date": date.toApiDate(),
         "organizerId": organizerId,
       };
 
