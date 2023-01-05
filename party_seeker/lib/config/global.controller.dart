@@ -3,7 +3,7 @@ import 'package:party_seeker/shared_prefs/secure_storage.dart';
 import 'package:party_seeker/shared_prefs/shared_prefs.dart';
 
 class GlobalController {
-  User? _user;
+  late User _user;
   final SecureStorage _secureStorage = SecureStorage();
   final SharedPref _sharedPref = SharedPref();
 
@@ -14,8 +14,8 @@ class GlobalController {
 
   GlobalController._internal();
 
-  User? get user => _user;
-  set user(User? value) {
+  User get user => _user;
+  set user(User value) {
     _user = value;
     if (value != null) {
       _sharedPref.user = value;

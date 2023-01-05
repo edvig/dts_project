@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
-
 import '../../config/global.controller.dart';
 import '../../config/routes.dart';
+import '../../models/user.dart';
 import 'profile.view.dart';
 
 class ProfileController {
   final ProfileView _view;
-  GlobalController globalController = GlobalController();
+  final GlobalController _globalController = GlobalController();
+
+  User get user => _globalController.user;
 
   ProfileController(this._view);
 
   void logout() {
-    GlobalController().logout().then((value) {
+    _globalController.logout().then((value) {
       _view.navigateTo(Routes.login, removeUntil: true);
     });
   }

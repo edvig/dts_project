@@ -11,7 +11,7 @@ abstract class SharedPrefHandler {
   }
 
   @protected
-  Future<bool> deleteData() async => await _prefs!.clear();
+  Future<bool> deleteData() async => await _prefs?.clear() ?? false;
 
   @protected
   void saveString(String key, String? value) =>
