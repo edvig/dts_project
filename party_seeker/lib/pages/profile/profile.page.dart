@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/config/date.extension.dart';
+import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/pages/profile/profile.view.dart';
 import '../../config/routes.dart';
 import 'profile.controller.dart';
@@ -23,11 +25,11 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   }
 
   @override
-  void navigateTo(String route, {bool removeUntil = false}) {
+  void navigateTo(String route, {bool removeUntil = false, dynamic arguments}) {
     if (removeUntil) {
       Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
     } else {
-      Navigator.pushNamed(context, route);
+      Navigator.pushNamed(context, route, arguments: arguments);
     }
   }
 
@@ -39,9 +41,8 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   }
 
   @override
-  void showErrorMessage(String message) {
-    // TODO: implement showErrorMessage
-  }
+  void showErrorMessage(String message) =>
+      CustomSnackBar.of(context).show(message);
 
   void showDeleteConfirmationDialog() {
     showDialog(
@@ -241,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
         ],
       );
 
-  Widget eventContainer(String eventTitle) => Container(
+  Widget eventContainer(Event event) => Container(
         height: 60,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -259,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
             SizedBox(
               width: MediaQuery.of(context).size.width * .5,
               child: Text(
-                eventTitle,
+                event.title,
                 overflow: TextOverflow.fade,
                 style: Theme.of(context).textTheme.headline2,
               ),
@@ -268,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
               children: [
                 InkWell(
                   onTap: () {
-                    navigateTo(Routes.editEvent);
+                    navigateTo(Routes.editEvent, arguments: event);
                   },
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
@@ -331,7 +332,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
               shrinkWrap: true,
               itemCount: controller.userEventsLength,
               itemBuilder: (context, index) {
-                return eventContainer(controller.userEvents[index].title);
+                return eventContainer(controller.userEvents[index]);
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(

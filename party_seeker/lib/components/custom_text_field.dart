@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final bool? enabled;
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
+  final String? initValue;
 
   const CustomTextField(
       {super.key,
@@ -22,11 +23,13 @@ class CustomTextField extends StatelessWidget {
       this.onTap,
       this.enabled,
       this.readOnly = false,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.initValue});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initValue,
       validator: validator,
       controller: controller,
       onTap: onTap,

@@ -101,4 +101,21 @@ class EventApi {
       throw "Error to attednd to this event";
     }
   }
+
+  Future<bool> deleteEventById(int eventId) async {
+    try {
+      var url = "$baseUrl/$eventId";
+      var result = await httpRequest.delete(url);
+      if (result.statusCode == 200) {
+        return true;
+      } else {
+        throw "Error to delete this event";
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      throw "Error to delete this event";
+    }
+  }
 }

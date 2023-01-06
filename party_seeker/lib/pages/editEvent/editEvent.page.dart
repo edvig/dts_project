@@ -1,13 +1,51 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:party_seeker/components/custom_snackbar.dart';
+import 'package:party_seeker/pages/editEvent/editEvent.controller.dart';
+import 'package:party_seeker/pages/editEvent/editEvent.view.dart';
+import '../../components/event_form.dart';
+import '../../models/event.dart';
 
-import '../../components/custom_text_field.dart';
+class EditEventPage extends StatefulWidget {
+  const EditEventPage({super.key});
 
-class EditEventPage extends StatelessWidget {
-  const EditEventPage({Key? key}) : super(key: key);
+  @override
+  State<EditEventPage> createState() => _EditEventPageState();
+}
+
+class _EditEventPageState extends State<EditEventPage>
+    implements EditEventView {
+  late Event event;
+  late EditEventController controller;
+  bool isLoading = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    controller = EditEventController(this);
+    super.initState();
+  }
+
+  @override
+  void navigateBack() => Navigator.pop(context);
+
+  @override
+  void navigateTo(String route) {
+    Navigator.pushNamed(context, route);
+  }
+
+  @override
+  void setLoading(bool value) => isLoading = value;
+
+  @override
+  void showErrorMessage(String message) {
+    CustomSnackBar.of(context).show(message);
+  }
 
   @override
   Widget build(BuildContext context) {
+    event = ModalRoute.of(context)!.settings.arguments as Event;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -25,74 +63,11 @@ class EditEventPage extends StatelessWidget {
           child: const Icon(CupertinoIcons.left_chevron),
         ),
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          top: 20,
-          bottom: 30,
-          left: 20,
-          right: 20,
-        ),
-        children: [
-          const CustomTextField(
-            hintText: 'Title',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CustomTextField(
-            hintText: 'Date',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CustomTextField(
-            hintText: 'Time',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CustomTextField(
-            hintText: 'Price',
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 15),
-          const CustomTextField(
-            hintText: 'Description',
-            maxLines: 10,
-            keyboardType: TextInputType.text,
-          ),
-          const SizedBox(height: 30),
-          InkWell(
-            onTap: () {},
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 3,
-                    color: Colors.white,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(100))),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Center(
-                  child: false
-                      ? const CupertinoActivityIndicator(
-                          radius: 15,
-                          color: Colors.white,
-                        )
-                      : Text(
-                          'Save',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline2
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: EventForm(
+          event: event,
+          isNewEvent: false,
+          saveEventFunction: controller.saveEvent,
+          formKey: _formKey),
     );
   }
 }

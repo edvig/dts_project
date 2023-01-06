@@ -66,7 +66,34 @@ class EventsUseCase {
         result = true;
       }
     }
-
     return result;
+  }
+
+  Future<Result<String>> updateEvent(Event event) async {
+    try {
+      var deleteResult = await deleteEvent(event.id!);
+      if (deleteResult.hasError) {
+        return Result(data: "Error to update this event!", isSuccess: false);
+      }
+      var createResult = await createEvent(event);
+      if (createResult.isSuccess) {
+        return Result(data: "Success", isSuccess: true);
+      }
+      return Result(data: "Error to update this event!", isSuccess: false);
+    } catch (ex) {
+      return Result(data: "Error to update event!", isSuccess: false);
+    }
+  }
+
+  Future<Result<String>> deleteEvent(int eventId) async {
+    try {
+      var result = await _eventApi.deleteEventById(eventId);
+      if (result) {
+        return Result(data: "Deleted with success", isSuccess: true);
+      }
+      return Result(data: "Error to deleted this event", isSuccess: false);
+    } catch (ex) {
+      return Result(data: "Error to deleted this event", isSuccess: false);
+    }
   }
 }
