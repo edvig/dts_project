@@ -16,5 +16,9 @@ class SecureStorage {
 
   Future<void> _deleteValue(String key) async => await storage.delete(key: key);
 
+  Future<void> deleteAll() async {
+    await storage.deleteAll();
+  }
+
   // Future<Map<String, String>> _getAllValues() async => await storage.readAll();
 }

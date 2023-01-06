@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:party_seeker/config/date.extension.dart';
+import 'package:party_seeker/pages/profile/profile.view.dart';
 import '../../config/routes.dart';
 import 'profile.controller.dart';
 
@@ -11,18 +12,35 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   late ProfileController controller;
   bool loading = false;
 
-  void navigateTo(String route) {
-    Navigator.pushNamed(context, route);
+  @override
+  void initState() {
+    controller = ProfileController(this);
+    super.initState();
   }
 
+  @override
+  void navigateTo(String route, {bool removeUntil = false}) {
+    if (removeUntil) {
+      Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+    } else {
+      Navigator.pushNamed(context, route);
+    }
+  }
+
+  @override
   void setLoading(bool value) {
     setState(() {
       loading = value;
     });
+  }
+
+  @override
+  void showErrorMessage(String message) {
+    // TODO: implement showErrorMessage
   }
 
   @override
@@ -58,13 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Expanded(
                   child: Text(
-                    'Matheus Galvao',
+                    controller.user.firstName ?? "Name",
                     style: Theme.of(context).textTheme.headline2,
                   ),
                 ),
                 const SizedBox(width: 10),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => controller.logout(),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Container(
@@ -109,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'matheusgalvao@email.com',
+                    controller.user.emailAddress ?? "Email address",
                     style: Theme.of(context)
                         .textTheme
                         .headline2
@@ -128,7 +146,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    '03/11/2001',
+                    controller.user.birthday?.toSimpleDateString() ??
+                        "birthday",
                     style: Theme.of(context)
                         .textTheme
                         .headline2

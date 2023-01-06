@@ -25,10 +25,10 @@ class UserUsecase {
 
   Future<Result<bool>> login(String username, String password) async {
     try {
-      //TODO Change to get user and save on global storage
-      var token = await _userApi.loginUser(username, password);
+      var userData = await _userApi.loginUser(username, password);
       var secureStorage = SecureStorage();
-      await secureStorage.saveToken(token);
+      await secureStorage.saveToken(userData.token);
+      GlobalController().user = userData.user;
       return Result(data: true, isSuccess: true);
     } catch (ex) {
       return (Result(data: null, isSuccess: false));

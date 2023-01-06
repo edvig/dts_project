@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:party_seeker/config/app.config.dart';
+import 'package:party_seeker/models/login_response.dart';
 import 'package:party_seeker/models/user.dart';
 
 import 'implementation/dio_impl.dart';
@@ -31,14 +32,14 @@ class UserApi {
 
   //TODO this endpoint needs to be changed, because its necessary to return all user
   //information, but at moment returns only jwt token
-  Future<String> loginUser(String username, String password) async {
+  Future<LoginResponse> loginUser(String username, String password) async {
     try {
       var url = "$baseUrl/auth/signin";
       var response = await httpRequest
           .post(url, body: {"username": username, "password": password});
 
       if (response.statusCode == 200) {
-        return response.data;
+        return LoginResponse.fromJson(response.data);
       }
       throw "Error to login, try again";
     } catch (ex) {
