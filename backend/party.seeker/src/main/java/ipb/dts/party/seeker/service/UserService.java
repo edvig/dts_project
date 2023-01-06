@@ -52,6 +52,8 @@ public class UserService {
         user.setEvents(new ArrayList<Event>());
         user.setMyEvents(new ArrayList<Event>());
         user.setPassword(encode(user.getPassword()));
+        if(!user.getBirthday().isEmpty())
+            user.setBirthdayDate(user.getBirthday());
         return UserViewFromUser(SaveUser(user));
     }
 
@@ -62,7 +64,7 @@ public class UserService {
                 user.getLastName(),
                 user.getEmailAddress(),
                 user.getUsername(),
-                user.getBirthDay()
+                user.getBirthday()
         );
     }
 
@@ -75,7 +77,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(updatedUser.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setBirthDay(updatedUser.getBirthDay() != null ? updatedUser.getBirthDay() : user.getBirthDay());
+            user.setBirthdayDate(updatedUser.getBirthday() != null ? updatedUser.getBirthday() : user.getBirthday());
             user.setPassword(updatedUser.getPassword() != null ? encode(updatedUser.getPassword()) : user.getPassword());
             user.setUsername(updatedUser.getUsername() != null ? updatedUser.getUsername() : user.getUsername());
             user.setFirstName(updatedUser.getFirstName() != null ? updatedUser.getFirstName() : user.getFirstName());
