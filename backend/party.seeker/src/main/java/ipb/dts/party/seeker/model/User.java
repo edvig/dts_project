@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,9 +36,16 @@ public class User {
     @Column(name = "USERNAME", unique = true)
     private String username;
 
-    @Column(name = "BIRTHDAY")
-    @JsonFormat(pattern="yyyy-MM-ddTHH:mm:ss")
-    private LocalDateTime birthDay;
+    @Column(name = "BIRTHDAYDATE")
+    @JsonIgnore
+    private LocalDateTime birthdayDate;
+
+    public void setBirthdayDate(String birthday) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.birthdayDate = LocalDateTime.parse(birthday, formatter);
+    }
+
+    private String birthday;
 
     // This relationship is to list the events organized by the user.
     // One event can have one organizer, one user can organize multiple events.

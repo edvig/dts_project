@@ -9,5 +9,5 @@ public record UserView(
         String lastName,
         String emailAddress,
         String username,
-        LocalDateTime birthday
+        String birthday
 ) { }

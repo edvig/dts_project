@@ -66,7 +66,7 @@ public class AuthenticationController {
                 user.getLastName(),
                 user.getEmailAddress(),
                 user.getUsername(),
-                user.getBirthDay()
+                user.getBirthday()
         );
 
         return userView;

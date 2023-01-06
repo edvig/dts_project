@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +38,16 @@ public class Event {
     @Column(name = "MIN_AGE_TO_ATTEND")
     private Integer minAgeToAttend;
 
-    @Column(name = "DATETIME")
-    @JsonFormat(pattern="yyyy-MM-ddTHH:mm:ss")
-    private LocalDateTime dateTime;
+    @Column(name = "DATEANDTIME")
+    @JsonIgnore
+    private LocalDateTime dateAndTime;
+
+    public void setDateAndTime(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.dateAndTime = LocalDateTime.parse(dateTime, formatter);
+    }
+
+    private String dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")

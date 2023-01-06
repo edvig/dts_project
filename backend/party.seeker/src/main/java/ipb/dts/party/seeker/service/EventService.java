@@ -26,6 +26,10 @@ public class EventService {
     public Event CreateEvent(Event newEvent, User organizer) {
         if (organizer == null) return null;
 
+        if(!newEvent.getDateTime().isEmpty()){
+            newEvent.setDateAndTime(newEvent.getDateTime());
+        }
+
         List<Event> events = organizer.getMyEvents();
         newEvent.setOrganizer(organizer);
         events.add(newEvent);
@@ -63,7 +67,7 @@ public class EventService {
     public List<Event> GetUpcomingEvents() {
         return eventRepository.findAll()
                               .stream()
-                              .filter(event -> event.getDateTime().isAfter(LocalDateTime.now().minusDays(1))).collect(Collectors.toList());
+                              .filter(event -> event.getDateAndTime().isAfter(LocalDateTime.now().minusDays(1))).collect(Collectors.toList());
     }
 
     public boolean DeleteEventById2(Integer eventId) {
@@ -82,23 +86,6 @@ public class EventService {
     public boolean DeleteEventById(Integer eventId) {
         eventRepository.deleteById(eventId);
         return GetEventById(eventId) == null;
-    }
-
-    public boolean RemoveEventById2(Integer eventId) {
-        Event event = GetEventById(eventId);
-        if (event == null) return false;
-        event.getParticipants().forEach(participant->{
-            List<Event> participationList = participant.getEvents();
-            participationList.remove(event);
-            participant.setEvents(participationList);
-        });
-        List<Event> eventsOfOrganizer = event.getOrganizer().getMyEvents();
-        eventsOfOrganizer.remove(event);
-        event.getOrganizer().setMyEvents(eventsOfOrganizer);
-
-        event.getParticipants().clear();
-
-        return DeleteEventById(event.getId());
     }
 
     public boolean RemoveEventById(Integer eventId) {
@@ -131,7 +118,7 @@ public class EventService {
             event.setTitle(updatedEvent.getTitle() != null ? updatedEvent.getTitle() : event.getTitle());
             event.setLimitOfAttendants(updatedEvent.getLimitOfAttendants() != null ? updatedEvent.getLimitOfAttendants() : event.getLimitOfAttendants());
             event.setMinAgeToAttend(updatedEvent.getMinAgeToAttend() != null ? updatedEvent.getMinAgeToAttend() : event.getMinAgeToAttend());
-            event.setDateTime(updatedEvent.getDateTime() != null ? updatedEvent.getDateTime() : event.getDateTime());
+            event.setDateAndTime(!updatedEvent.getDateTime().isEmpty() ? updatedEvent.getDateTime() : event.getDateTime());
             return eventRepository.save(event);
          }
         return null;
