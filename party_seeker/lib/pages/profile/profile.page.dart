@@ -43,6 +43,258 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
     // TODO: implement showErrorMessage
   }
 
+  void showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Are you sure?',
+            style: Theme.of(context).textTheme.headline2?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 25,
+            vertical: 15,
+          ),
+          content: SizedBox(
+            height: 60,
+            child: Text(
+              'This event will be deleted forever',
+              style: Theme.of(context).textTheme.headline3,
+            ),
+          ),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+            side: BorderSide(
+              color: Colors.white,
+              width: 3,
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 10,
+                left: 10,
+                right: 10,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: Container(
+                      width: 100,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Center(
+                          child: Text(
+                            'No',
+                            style:
+                                Theme.of(context).textTheme.headline2?.copyWith(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: Container(
+                      width: 100,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Center(
+                          child: false
+                              ? const CupertinoActivityIndicator(
+                                  radius: 15,
+                                  color: Colors.black,
+                                )
+                              : Text(
+                                  'Yes',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline2
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget userInfo() => Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  controller.user.firstName ?? "Name",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+              ),
+              const SizedBox(width: 10),
+              InkWell(
+                onTap: () => controller.logout(),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Container(
+                  width: 100,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Center(
+                      child: false
+                          ? const CupertinoActivityIndicator(
+                              radius: 15,
+                              color: Colors.black,
+                            )
+                          : Text(
+                              'Log out',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline2
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                            ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Icon(
+                Icons.email_rounded,
+                color: Colors.white,
+                size: 25,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  controller.user.emailAddress ?? "Email address",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline2
+                      ?.copyWith(fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Icon(
+                Icons.calendar_month,
+                color: Colors.white,
+                size: 25,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  controller.user.birthday?.toSimpleDateString() ?? "birthday",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline2
+                      ?.copyWith(fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+
+  Widget eventContainer(String eventTitle) => Container(
+        height: 60,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white,
+            width: 3,
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(15),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .5,
+              child: Text(
+                eventTitle,
+                overflow: TextOverflow.fade,
+                style: Theme.of(context).textTheme.headline2,
+              ),
+            ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    navigateTo(Routes.editEvent);
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                InkWell(
+                  onTap: showDeleteConfirmationDialog,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  child: const Icon(
+                    CupertinoIcons.delete,
+                    color: Colors.red,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,291 +324,14 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: <Widget>[
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    controller.user.firstName ?? "Name",
-                    style: Theme.of(context).textTheme.headline2,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                InkWell(
-                  onTap: () => controller.logout(),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  child: Container(
-                    width: 100,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Center(
-                        child: false
-                            ? const CupertinoActivityIndicator(
-                                radius: 15,
-                                color: Colors.black,
-                              )
-                            : Text(
-                                'Log out',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline2
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                    ),
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const Icon(
-                  Icons.email_rounded,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    controller.user.emailAddress ?? "Email address",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline2
-                        ?.copyWith(fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Icon(
-                  Icons.calendar_month,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    controller.user.birthday?.toSimpleDateString() ??
-                        "birthday",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline2
-                        ?.copyWith(fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
+            userInfo(),
             const SizedBox(height: 30),
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: 5,
+              itemCount: controller.userEventsLength,
               itemBuilder: (context, index) {
-                return Container(
-                  height: 60,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 3,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .5,
-                        child: Text(
-                          'Quiz Party',
-                          overflow: TextOverflow.fade,
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              navigateTo(Routes.editEvent);
-                            },
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      'Are you sure?',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline2
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 25,
-                                      vertical: 15,
-                                    ),
-                                    content: SizedBox(
-                                      height: 60,
-                                      child: Text(
-                                        'This event will be deleted forever',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3,
-                                      ),
-                                    ),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
-                                      side: BorderSide(
-                                        color: Colors.white,
-                                        width: 3,
-                                      ),
-                                    ),
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                    actions: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 10,
-                                          left: 10,
-                                          right: 10,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            InkWell(
-                                              onTap: () =>
-                                                  Navigator.pop(context),
-                                              splashColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              child: Container(
-                                                width: 100,
-                                                height: 50,
-                                                decoration: const BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                15))),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  child: Center(
-                                                    child: false
-                                                        ? const CupertinoActivityIndicator(
-                                                            radius: 15,
-                                                            color: Colors.black,
-                                                          )
-                                                        : Text(
-                                                            'No',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline2
-                                                                ?.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w800,
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                          ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              splashColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              child: Container(
-                                                width: 100,
-                                                height: 50,
-                                                decoration: const BoxDecoration(
-                                                    color: Colors.red,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                15))),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  child: Center(
-                                                    child: false
-                                                        ? const CupertinoActivityIndicator(
-                                                            radius: 15,
-                                                            color: Colors.black,
-                                                          )
-                                                        : Text(
-                                                            'Yes',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline2
-                                                                ?.copyWith(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w800,
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                          ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            child: const Icon(
-                              CupertinoIcons.delete,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
+                return eventContainer(controller.userEvents[index].title);
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(

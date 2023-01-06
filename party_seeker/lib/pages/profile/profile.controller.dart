@@ -1,3 +1,5 @@
+import 'package:party_seeker/models/event.dart';
+
 import '../../config/global.controller.dart';
 import '../../config/routes.dart';
 import '../../models/user.dart';
@@ -8,6 +10,8 @@ class ProfileController {
   final GlobalController _globalController = GlobalController();
 
   User get user => _globalController.user;
+  List<Event> get userEvents => _globalController.userEvents;
+  int get userEventsLength => _globalController.userEvents.length;
 
   ProfileController(this._view);
 

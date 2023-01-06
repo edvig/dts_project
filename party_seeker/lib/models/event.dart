@@ -11,6 +11,8 @@ class Event {
   int? limitOfAttendants;
   int organizerId;
 
+  bool get isEmptyEvent => id == -1;
+
   String get formatedCost => "$price";
 
   Event(
@@ -46,6 +48,15 @@ class Event {
         "dateTime": date.toApiDate(),
         "organizerId": organizerId,
       };
+
+  Event.empty()
+      : date = DateTime.now(),
+        title = "",
+        price = -1,
+        organizerId = -1,
+        description = "",
+        minAgeToAttend = -1,
+        id = -1;
 
   static DateTime _parseDate(String? date) {
     if (date == null) return DateTime(1900);

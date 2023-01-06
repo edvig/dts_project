@@ -14,6 +14,7 @@ class EventsUseCase {
   Future<Result<List<Event>>> getAllEvents() async {
     try {
       var events = await _eventApi.getAllEvents();
+      GlobalController().events = events;
       return Result(data: events, isSuccess: true);
     } catch (ex) {
       return (Result(data: [], isSuccess: false));
