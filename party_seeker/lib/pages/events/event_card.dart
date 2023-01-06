@@ -3,11 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:party_seeker/models/event.dart';
 import '../../config/date.extension.dart';
 
-class EventCard extends StatelessWidget {
+class EventCard extends StatefulWidget {
+  const EventCard({super.key, required this.event, required this.attendEvent});
   final Event event;
+  final Future<void> Function(int eventId) attendEvent;
 
-  const EventCard({super.key, required this.event});
+  @override
+  State<EventCard> createState() => _EventCardState();
+}
 
+class _EventCardState extends State<EventCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -42,7 +47,7 @@ class EventCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        event.title,
+                        widget.event.title,
                         style: Theme.of(context).textTheme.headline1?.copyWith(
                               fontWeight: FontWeight.w800,
                             ),
@@ -50,7 +55,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => widget.attendEvent(widget.event.id ?? 0),
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       child: true
@@ -109,7 +114,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.location ?? "-",
+                      widget.event.location ?? "-",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -127,7 +132,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.date.toSimpleDateString(),
+                      widget.event.date.toSimpleDateString(),
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -145,7 +150,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      event.date.toFormatedHour(),
+                      widget.event.date.toFormatedHour(),
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -163,7 +168,7 @@ class EventCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     Text(
-                      "${event.minAgeToAttend}",
+                      "${widget.event.minAgeToAttend}",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -176,7 +181,7 @@ class EventCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      event.formatedCost,
+                      widget.event.formatedCost,
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -200,7 +205,7 @@ class EventCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        event.description,
+                        widget.event.description,
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
@@ -229,10 +234,10 @@ class EventCard extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () => widget.attendEvent(widget.event.id ?? 0),
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  child: false
+                  child: true
                       ? Container(
                           height: 90,
                           width: 110,
@@ -284,7 +289,7 @@ class EventCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        event.title,
+                        widget.event.title,
                         style: Theme.of(context).textTheme.headline1?.copyWith(
                               fontWeight: FontWeight.w800,
                             ),
@@ -300,7 +305,7 @@ class EventCard extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            event.formatedCost,
+                            widget.event.formatedCost,
                             style:
                                 Theme.of(context).textTheme.headline2?.copyWith(
                                       color: Colors.black,
@@ -321,7 +326,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.location ?? "-",
+                        widget.event.location ?? "-",
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -339,7 +344,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.date.toSimpleDateString(),
+                        widget.event.date.toSimpleDateString(),
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -357,7 +362,7 @@ class EventCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        event.date.toFormatedHour(),
+                        widget.event.date.toFormatedHour(),
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -375,7 +380,7 @@ class EventCard extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        "${event.minAgeToAttend}",
+                        "${widget.event.minAgeToAttend}",
                         style: Theme.of(context)
                             .textTheme
                             .headline3

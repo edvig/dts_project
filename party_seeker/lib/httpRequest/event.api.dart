@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:party_seeker/config/app.config.dart';
 import 'package:party_seeker/httpRequest/implementation/dio_impl.dart';
 import 'package:party_seeker/models/event.dart';
+import 'package:party_seeker/models/user.dart';
 import 'package:party_seeker/shared_prefs/secure_storage.dart';
 
 class EventApi {
@@ -58,6 +60,45 @@ class EventApi {
       }
     } catch (ex) {
       throw "Error to create event";
+    }
+  }
+
+  Future<List<User>> getParticipantsOfEvent(int eventId) async {
+    try {
+      var url = "$baseUrl/$eventId/participants";
+      var result = await httpRequest.get(url);
+      if (result.statusCode == 200) {
+        var participants = List<User>.empty(growable: true);
+        for (var userJson in (result.data as List)) {
+          participants.add(User.fromJson(userJson));
+        }
+        return participants;
+      } else {
+        throw "Error to get participants list";
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      throw "Error to get participants list";
+    }
+  }
+
+  Future<bool> attendToEvent(String eventId, String userId) async {
+    try {
+      var url = "$baseUrl/attend";
+      var result = await httpRequest.post(url,
+          body: {"eventId": eventId, "userId1": userId, "attend": false});
+      if (result.statusCode == 200) {
+        return true;
+      } else {
+        throw "Error to attend to this event";
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      throw "Error to attednd to this event";
     }
   }
 }

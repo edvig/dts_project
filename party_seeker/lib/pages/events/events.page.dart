@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/pages/events/event_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -52,12 +53,20 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
   }
 
   @override
-  void showErrorMessage(String message) {
+  void showMessage(String message) {
+    CustomSnackBar.of(context).show(message);
+  }
+
+  @override
+  void setErrorMessage(String message) {
     setState(() {
       hasError = true;
       errorMessage = message;
     });
   }
+
+  @override
+  void showErrorMessage(String message) => showMessage(message);
 
   void _onRefresh() async {
     controller.loadEvents();
@@ -170,6 +179,7 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
         itemCount: events.length,
         itemBuilder: (_, i) => EventCard(
           event: events[i],
+          attendEvent: controller.attendToEvent,
         ),
       );
 }

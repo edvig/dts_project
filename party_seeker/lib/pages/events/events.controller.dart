@@ -3,12 +3,10 @@ import 'package:party_seeker/usecases/events_usecase.dart';
 import 'events.view.dart';
 
 class EventsController {
-  EventsView _view;
+  final EventsView _view;
   final EventsUseCase _useCase = EventsUseCase();
 
   EventsController(this._view);
-
-  set view(EventsView value) => _view = value;
 
   Future<void> loadEvents() async {
     _view.setLoading(true);
@@ -16,8 +14,17 @@ class EventsController {
     if (eventsResult.isSuccess) {
       _view.setEvents(eventsResult.data!);
     } else {
-      _view.showErrorMessage("We have some problem to load events. Try again");
+      _view.setErrorMessage("We have some problem to load events. Try again");
     }
     _view.setLoading(false);
+  }
+
+  Future<void> attendToEvent(int eventId) async {
+    var result = await _useCase.attendToEvent(eventId);
+    if (result.isSuccess) {
+      _view.showMessage("Success");
+    } else {
+      _view.showErrorMessage(result.data.toString());
+    }
   }
 }

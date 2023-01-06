@@ -1,4 +1,6 @@
+import 'package:party_seeker/config/global.controller.dart';
 import 'package:party_seeker/httpRequest/event.api.dart';
+import 'package:party_seeker/httpRequest/user.api.dart';
 import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/models/result.dart';
 
@@ -34,5 +36,36 @@ class EventsUseCase {
     } catch (ex) {
       return Result(data: null, isSuccess: false);
     }
+  }
+
+  Future<Result> attendToEvent(int eventId) async {
+    try {
+      var userId = GlobalController().user.id;
+      var hasUserAlreadyAttend =
+          await hasUserAlreadyAttendtoEvent(eventId, userId ?? 0);
+      if (hasUserAlreadyAttend) {
+        return Result(
+            data: "You already attend to this event", isSuccess: false);
+      }
+      var result =
+          await _eventApi.attendToEvent(eventId.toString(), userId.toString());
+      return Result(data: result, isSuccess: result);
+    } catch (ex) {
+      return Result(
+          data: "Error to attend to event, try again later.", isSuccess: false);
+    }
+  }
+
+  Future<bool> hasUserAlreadyAttendtoEvent(int eventId, int userId) async {
+    //TODO esse endpoint nao retornou nada
+    var participants = await _eventApi.getParticipantsOfEvent(eventId);
+    bool result = false;
+    for (var participant in participants) {
+      if (participant.id == userId) {
+        result = true;
+      }
+    }
+
+    return result;
   }
 }
