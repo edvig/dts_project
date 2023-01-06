@@ -21,7 +21,7 @@ extension MyDateTimeExtension on DateTime {
     String fixedMinute = _twoDigits(minute);
     String fixedSecond = _twoDigits(second);
 
-    return "$fixedYear-$fixedMonth-${fixedDay}T$fixedHour:$fixedMinute:$fixedSecond";
+    return "$fixedYear-$fixedMonth-$fixedDay $fixedHour:$fixedMinute";
   }
 
   String _fourDigits(int n) {
@@ -38,3 +38,5 @@ extension MyDateTimeExtension on DateTime {
     return "0$n";
   }
 }
+//date: 2023-01-06 12:07:47
+//dateTime: "2023-01-10 15:19"

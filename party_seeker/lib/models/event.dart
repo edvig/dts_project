@@ -28,7 +28,7 @@ class Event {
       : title = json["title"],
         location = json["location"],
         description = json["description"] ?? "",
-        date = _parseDate(json["date"]),
+        date = _parseDate(json["dateTime"]),
         minAgeToAttend = json["minAgeToAttend"] ?? 0,
         price = json["price"],
         organizerId = json["organizerId"],
@@ -43,7 +43,7 @@ class Event {
         "minAgeToAttend": minAgeToAttend,
         "price": price,
         "limitOfAttendants": limitOfAttendants,
-        "date": date.toApiDate(),
+        "dateTime": date.toApiDate(),
         "organizerId": organizerId,
       };
 
