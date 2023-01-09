@@ -18,6 +18,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   late ProfileController controller;
   bool loading = false;
   bool isDeletingEvent = false;
+  List<Event> userEvents = [];
 
   @override
   void setDeleteEventLoading(bool value) {
@@ -30,6 +31,15 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   void initState() {
     controller = ProfileController(this);
     super.initState();
+  }
+
+  @override
+  void setUserEventList(List<Event> events) {
+    if (mounted) {
+      setState(() {
+        userEvents = events;
+      });
+    }
   }
 
   @override
@@ -342,9 +352,9 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: controller.userEventsLength,
+              itemCount: userEvents.length,
               itemBuilder: (context, index) {
-                return eventContainer(controller.userEvents[index]);
+                return eventContainer(userEvents[index]);
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(

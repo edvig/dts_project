@@ -1,5 +1,6 @@
 import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/usecases/events_usecase.dart';
+import 'package:party_seeker/value_notifier_models/event_list.dart';
 
 import '../../config/global.controller.dart';
 import '../../config/routes.dart';
@@ -12,10 +13,19 @@ class ProfileController {
   final EventsUseCase _eventsUseCase = EventsUseCase();
 
   User get user => _globalController.user;
-  List<Event> get userEvents => _globalController.userEvents;
-  int get userEventsLength => _globalController.userEvents.length;
+  EventList get eventListener => GlobalController().eventListener;
 
-  ProfileController(this._view);
+  ProfileController(this._view) {
+    _setUserEvents(eventListener.value);
+    GlobalController().addListenerToUpdateEvents(_setUserEvents);
+  }
+
+  void _setUserEvents(List<Event> events) {
+    var filteredEvents = eventListener.value
+        .where((element) => element.organizerId == user.id)
+        .toList();
+    _view.setUserEventList(filteredEvents);
+  }
 
   void logout() {
     _globalController.logout().then((value) {

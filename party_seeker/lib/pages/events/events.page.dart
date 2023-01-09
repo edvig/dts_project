@@ -68,8 +68,8 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
   @override
   void showErrorMessage(String message) => showMessage(message);
 
-  void _onRefresh() async {
-    controller.loadEvents();
+  Future<void> _onRefresh() async {
+    await controller.refreshEvents();
     _refreshController.refreshCompleted();
   }
 
@@ -163,7 +163,11 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
         ),
       );
 
-  Widget loadList() => ListView.separated(
+  Widget loadList() =>
+      // ValueListenableBuilder(
+      //     valueListenable: controller.eventListener,
+      //     builder: ((context, value, child) =>
+      ListView.separated(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(
           top: 20,
@@ -182,4 +186,5 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
           attendEvent: controller.attendToEvent,
         ),
       );
+  // ));
 }

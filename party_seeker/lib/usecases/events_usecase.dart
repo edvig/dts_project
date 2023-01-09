@@ -13,7 +13,7 @@ class EventsUseCase {
   Future<Result<List<Event>>> getAllEvents() async {
     try {
       var events = await _eventApi.getAllEvents();
-      GlobalController().events = events;
+      GlobalController().addEvents(events);
       return Result(data: events, isSuccess: true);
     } catch (ex) {
       return (Result(data: [], isSuccess: false));
@@ -32,6 +32,7 @@ class EventsUseCase {
   Future<Result<Event>> createEvent(Event event) async {
     try {
       var eventCreated = await _eventApi.createEvent(event);
+      GlobalController().addEvents([eventCreated]);
       return Result(data: eventCreated, isSuccess: true);
     } catch (ex) {
       return Result(data: null, isSuccess: false);
@@ -72,12 +73,18 @@ class EventsUseCase {
     try {
       var deleteResult = await deleteEvent(event.id!);
       if (deleteResult.hasError) {
-        return Result(data: "Error to update this event!", isSuccess: false);
+        return deleteResult;
       }
+
+      GlobalController().removeFromCachedEvents(event.id!);
+
+      event.id = null;
       var createResult = await createEvent(event);
       if (createResult.isSuccess) {
+        GlobalController().addEvents([createResult.data!]);
         return Result(data: "Success", isSuccess: true);
       }
+
       return Result(data: "Error to update this event!", isSuccess: false);
     } catch (ex) {
       return Result(data: "Error to update event!", isSuccess: false);
