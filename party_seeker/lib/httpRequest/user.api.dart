@@ -17,7 +17,7 @@ class UserApi {
     try {
       var url = "$baseUrl/users";
       var response = await httpRequest.post(url, body: user.toJson());
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return User.fromJson(response.data);
       } else {
         throw "Error to create user";

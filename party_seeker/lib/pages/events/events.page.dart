@@ -163,11 +163,7 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
         ),
       );
 
-  Widget loadList() =>
-      // ValueListenableBuilder(
-      //     valueListenable: controller.eventListener,
-      //     builder: ((context, value, child) =>
-      ListView.separated(
+  Widget loadList() => ListView.separated(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(
           top: 20,
@@ -186,5 +182,4 @@ class _EventsPageState extends State<EventsPage> implements EventsView {
           attendEvent: controller.attendToEvent,
         ),
       );
-  // ));
 }

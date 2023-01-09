@@ -88,7 +88,7 @@ class EventApi {
     try {
       var url = "$baseUrl/attend";
       var result = await httpRequest.post(url,
-          body: {"eventId": eventId, "userId1": userId, "attend": false});
+          body: {"eventId": eventId, "userId": userId, "attend": true});
       if (result.statusCode == 200) {
         return true;
       } else {

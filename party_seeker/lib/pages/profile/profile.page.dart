@@ -264,6 +264,13 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
         ],
       );
 
+  Widget emptyMessage() => const Center(
+          child: Text(
+        "There is no events created by you",
+        style: TextStyle(
+            color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
+      ));
+
   Widget eventContainer(Event event) => Container(
         height: 60,
         padding: const EdgeInsets.all(10),
@@ -349,19 +356,21 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
           children: <Widget>[
             userInfo(),
             const SizedBox(height: 30),
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: userEvents.length,
-              itemBuilder: (context, index) {
-                return eventContainer(userEvents[index]);
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 15,
-                );
-              },
-            )
+            userEvents.isEmpty
+                ? emptyMessage()
+                : ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: userEvents.length,
+                    itemBuilder: (context, index) {
+                      return eventContainer(userEvents[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 15,
+                      );
+                    },
+                  )
           ],
         ),
       ),
