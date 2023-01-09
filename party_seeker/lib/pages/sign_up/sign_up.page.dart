@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:party_seeker/components/custom_datetime_picker.dart';
 import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/components/custom_text_field.dart';
-import 'package:party_seeker/config/date.extension.dart';
 import 'package:party_seeker/models/user.dart';
 import 'package:party_seeker/pages/sign_up/sign_up.controller.dart';
 

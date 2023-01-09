@@ -17,6 +17,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   late ProfileController controller;
   bool loading = false;
+  bool isDeletingEvent = false;
+
+  @override
+  void setDeleteEventLoading(bool value) {
+    setState(() {
+      isDeletingEvent = value;
+    });
+  }
 
   @override
   void initState() {
@@ -41,10 +49,12 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
   }
 
   @override
-  void showErrorMessage(String message) =>
-      CustomSnackBar.of(context).show(message);
+  void showMessage(String message) => CustomSnackBar.of(context).show(message);
 
-  void showDeleteConfirmationDialog() {
+  @override
+  void showErrorMessage(String message) => showMessage(message);
+
+  void showDeleteConfirmationDialog(int eventId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -113,7 +123,9 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () => controller
+                        .deleteEvent(eventId)
+                        .then((_) => Navigator.pop(context)),
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     child: Container(
@@ -125,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Center(
-                          child: false
+                          child: isDeletingEvent
                               ? const CupertinoActivityIndicator(
                                   radius: 15,
                                   color: Colors.black,
@@ -282,7 +294,7 @@ class _ProfilePageState extends State<ProfilePage> implements ProfileView {
                   width: 20,
                 ),
                 InkWell(
-                  onTap: showDeleteConfirmationDialog,
+                  onTap: () => showDeleteConfirmationDialog(event.id!),
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: const Icon(

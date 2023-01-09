@@ -19,7 +19,6 @@ extension MyDateTimeExtension on DateTime {
     String fixedDay = _twoDigits(day);
     String fixedHour = _twoDigits(hour);
     String fixedMinute = _twoDigits(minute);
-    String fixedSecond = _twoDigits(second);
 
     return "$fixedYear-$fixedMonth-$fixedDay $fixedHour:$fixedMinute";
   }

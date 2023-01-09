@@ -24,6 +24,9 @@ class GlobalController {
     }
   }
 
+  void removeFromCachedEvents(int eventId) =>
+      _events.removeWhere((event) => event.id == eventId);
+
   List<Event> get userEvents =>
       (_events.where((element) => element.organizerId == user.id)).toList();
 

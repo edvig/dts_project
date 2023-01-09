@@ -1,6 +1,5 @@
 import 'package:party_seeker/config/global.controller.dart';
 import 'package:party_seeker/httpRequest/event.api.dart';
-import 'package:party_seeker/httpRequest/user.api.dart';
 import 'package:party_seeker/models/event.dart';
 import 'package:party_seeker/models/result.dart';
 
@@ -89,6 +88,7 @@ class EventsUseCase {
     try {
       var result = await _eventApi.deleteEventById(eventId);
       if (result) {
+        GlobalController().removeFromCachedEvents(eventId);
         return Result(data: "Deleted with success", isSuccess: true);
       }
       return Result(data: "Error to deleted this event", isSuccess: false);
