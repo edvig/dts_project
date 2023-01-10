@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage> implements LoginView {
           ),
           const SizedBox(height: 15),
           CupertinoTextField(
+            obscureText: true,
             placeholder: 'Password',
             keyboardType: TextInputType.visiblePassword,
             controller: passwordController,

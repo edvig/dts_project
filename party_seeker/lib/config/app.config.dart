@@ -8,10 +8,10 @@ class AppConfig {
       if (Platform.isAndroid) {
         return "http://10.0.2.2:8080";
       } else {
-        return "http://localhost:8080";
+        return "http://Leonardos-MacBook-Pro.local:8080";
       }
     }
     //TODO change to production URL
-    return "http://localhost:8080";
+    return "http://194.210.90.148:8080";
   }
 }

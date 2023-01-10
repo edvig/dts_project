@@ -181,7 +181,7 @@ class _EventCardState extends State<EventCard> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      widget.event.formatedCost,
+                      "€${widget.event.formatedCost}",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
@@ -305,7 +305,7 @@ class _EventCardState extends State<EventCard> {
                         ),
                         child: Center(
                           child: Text(
-                            widget.event.formatedCost,
+                            "€${widget.event.formatedCost}",
                             style:
                                 Theme.of(context).textTheme.headline2?.copyWith(
                                       color: Colors.black,
