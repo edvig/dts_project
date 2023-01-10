@@ -20,7 +20,7 @@ extension MyDateTimeExtension on DateTime {
     String fixedHour = _twoDigits(hour);
     String fixedMinute = _twoDigits(minute);
 
-    return "$fixedYear-$fixedMonth-$fixedDay $fixedHour:$fixedMinute";
+    return "$fixedYear-$fixedMonth-${fixedDay}T$fixedHour:$fixedMinute";
   }
 
   String _fourDigits(int n) {
