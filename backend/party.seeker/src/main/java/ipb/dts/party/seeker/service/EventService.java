@@ -4,6 +4,7 @@ import ipb.dts.party.seeker.model.Event;
 import ipb.dts.party.seeker.model.User;
 import ipb.dts.party.seeker.repository.EventRepository;
 import ipb.dts.party.seeker.repository.UserRepository;
+import ipb.dts.party.seeker.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,6 +120,7 @@ public class EventService {
             event.setLimitOfAttendants(updatedEvent.getLimitOfAttendants() != null ? updatedEvent.getLimitOfAttendants() : event.getLimitOfAttendants());
             event.setMinAgeToAttend(updatedEvent.getMinAgeToAttend() != null ? updatedEvent.getMinAgeToAttend() : event.getMinAgeToAttend());
             event.setDateAndTime(!updatedEvent.getDateTime().isEmpty() ? updatedEvent.getDateTime() : event.getDateTime());
+            event.setDescription(updatedEvent.getDescription()!= null? updatedEvent.getDescription() : event.getDescription());
             return eventRepository.save(event);
          }
         return null;
@@ -126,6 +128,9 @@ public class EventService {
 
     public List<User> GetParticipants(Integer eventId) {
         Event event = GetEventById(eventId);
+        if (event.getParticipants() == null)
+            return null;
+        List<UserView> userViews;
         return (event != null) ? event.getParticipants() : null;
     }
 
