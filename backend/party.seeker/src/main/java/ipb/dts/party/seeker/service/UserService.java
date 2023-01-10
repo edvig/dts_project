@@ -36,7 +36,7 @@ public class UserService {
     public UserView GetUserViewById(Integer userId) {
         User user = GetUserById(userId);
         if (user == null) return null;
-        return UserViewFromUser(user);
+            return UserViewFromUser(user);
     }
 
     public User GetUserByUsername(String username){
@@ -64,7 +64,7 @@ public class UserService {
                 user.getLastName(),
                 user.getEmailAddress(),
                 user.getUsername(),
-                user.getBirthday()
+                user.getBirthdayDate().toString()
         );
     }
 

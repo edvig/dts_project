@@ -2,6 +2,7 @@ package ipb.dts.party.seeker.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ipb.dts.party.seeker.view.UserView;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -41,7 +42,7 @@ public class User {
     private LocalDateTime birthdayDate;
 
     public void setBirthdayDate(String birthday) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         this.birthdayDate = LocalDateTime.parse(birthday, formatter);
     }
 

@@ -38,12 +38,15 @@ public class Event {
     @Column(name = "MIN_AGE_TO_ATTEND")
     private Integer minAgeToAttend;
 
+    @Column(name="DESCRIPTION")
+    private String description;
+
     @Column(name = "DATEANDTIME")
     @JsonIgnore
     private LocalDateTime dateAndTime;
 
     public void setDateAndTime(String dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         this.dateAndTime = LocalDateTime.parse(dateTime, formatter);
     }
 
@@ -51,6 +54,7 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
+    @JsonIgnore
     private User organizer;
 
     @Column(name = "organizerId")
