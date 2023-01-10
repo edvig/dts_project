@@ -11,6 +11,8 @@ class Event {
   int? limitOfAttendants;
   int organizerId;
 
+  bool get isEmptyEvent => id == -1;
+
   String get formatedCost => "$price";
 
   Event(
@@ -28,7 +30,7 @@ class Event {
       : title = json["title"],
         location = json["location"],
         description = json["description"] ?? "",
-        date = _parseDate(json["date"]),
+        date = _parseDate(json["dateTime"]),
         minAgeToAttend = json["minAgeToAttend"] ?? 0,
         price = json["price"],
         organizerId = json["organizerId"],
@@ -43,9 +45,18 @@ class Event {
         "minAgeToAttend": minAgeToAttend,
         "price": price,
         "limitOfAttendants": limitOfAttendants,
-        "date": date.toApiDate(),
+        "dateTime": date.toApiDate(),
         "organizerId": organizerId,
       };
+
+  Event.empty()
+      : date = DateTime.now(),
+        title = "",
+        price = -1,
+        organizerId = -1,
+        description = "",
+        minAgeToAttend = -1,
+        id = -1;
 
   static DateTime _parseDate(String? date) {
     if (date == null) return DateTime(1900);

@@ -4,10 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:party_seeker/components/custom_datetime_picker.dart';
 import 'package:party_seeker/components/custom_snackbar.dart';
 import 'package:party_seeker/components/custom_text_field.dart';
-import 'package:party_seeker/config/date.extension.dart';
 import 'package:party_seeker/models/user.dart';
 import 'package:party_seeker/pages/sign_up/sign_up.controller.dart';
-
+import 'package:party_seeker/config/date.extension.dart';
 import '../../config/routes.dart';
 import 'sign_up.view.dart';
 
@@ -21,6 +20,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> implements SignUpView {
   late SignUpController controller;
   bool loading = false;
+
+  late DateTime userDateTime;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -63,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
       emailAddress: emailController.text,
       firstName: firstNameController.text,
       lastName: lastNameController.text,
-      birthday: DateTime.tryParse(birthdayController.text),
+      birthday: userDateTime,
       username: usernameController.text,
       password: passwordController.text);
 
@@ -74,7 +75,8 @@ class _SignUpPageState extends State<SignUpPage> implements SignUpView {
       builder: (_) => CustonDatetimePicker(
           modalMode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (dateTime) {
-            birthdayController.text = dateTime.toIso8601String();
+            birthdayController.text = dateTime.toSimpleDateString();
+            userDateTime = dateTime;
           },
           value: DateTime.now()),
     );

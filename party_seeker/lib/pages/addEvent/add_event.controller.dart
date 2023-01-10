@@ -2,22 +2,20 @@ import 'package:party_seeker/config/global.controller.dart';
 import 'package:party_seeker/config/routes.dart';
 import 'package:party_seeker/pages/addEvent/add_event.view.dart';
 
+import '../../models/event.dart';
 import '../../usecases/events_usecase.dart';
 
 class AddEventController {
   final AddEventView _view;
   final EventsUseCase _useCase = EventsUseCase();
-
-  // TODO: get organizer Id from shared preferences after implement login
-  int get userId => 21;
-  // int get userId => GlobalController().user!.id!;
+  int get userId => GlobalController().user.id!;
 
   AddEventController(this._view);
 
-  Future<void> createNewEvent() async {
+  Future<void> createNewEvent(Event event) async {
     _view.setLoading(true);
     if (_view.isFormValid()) {
-      var event = _view.getNewEvent();
+      // var event = _view.getNewEvent();
       var result = await _useCase.createEvent(event);
       if (result.isSuccess) {
         _view.navigateTo(Routes.events);

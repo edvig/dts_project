@@ -1,3 +1,5 @@
+import 'package:party_seeker/config/date.extension.dart';
+
 class User {
   int? id;
   String? firstName;
@@ -32,7 +34,7 @@ class User {
       "emailAddress": emailAddress,
       "password": password,
       "username": username,
-      "birthday": birthday?.toIso8601String()
+      "birthday": birthday?.toApiDate()
     };
   }
 }
